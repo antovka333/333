@@ -21,7 +21,7 @@
 ## Навигация по документу
 
 - [Git](#git)
-- [WSL 2.0 для Windows 10/11](#wsl-20-для-windows-10-для-работы-с-бд)
+- [WSL 2.0 для Windows 10/11](#wsl-20-для-windows-1011-для-работы-с-docker-etc)
 - [Docker](#docker)
 - [Virtual Box (Для организации контроллера домена)](#virtual-box-для-организации-контроллера-домена)
 - [Минимальные настройки VSCode](#минимальные-настройки-vscode)
@@ -51,12 +51,12 @@
     - [Альт Образование 11 для виртуальной машины](https://download.basealt.ru/pub/distributions/ALTLinux/p11/images/education/x86_64/alt-education-11.0-x86_64.iso) - пока не обязательно!
 1. Нейросети [DeepSeek](https://chat.deepseek.com/) и [Cursor](https://cursor.com/)
 
-> Периодически следует обновлять все установленные пользователем приложения. Это удобней делать через **PowerShell** командой ` winget upgrade --all`
+> Периодически следует обновлять все установленные пользователем приложения. Это удобней делать через **PowerShell** командой `winget upgrade --all`
 
-Кроме этого, с помощью **WinGet** можно одновременно устанавливать сразу несколько выбранных приложени, например так:
+Кроме этого, с помощью **WinGet** можно одновременно устанавливать сразу несколько выбранных приложений, например:
 
 ```shell
-winget install Microsoft.Teams Git.Git Microsoft.VisualStudioCode LLVM.LLVM
+winget install Microsoft.Teams Git.Git Microsoft.VisualStudioCode Docker.DockerDesktop LLVM.LLVM
 ```
 
 ---
@@ -80,6 +80,7 @@ git config --global user.name "Rosa"
 git config --global user.email "rosa@mail.ru"
 ```
 > где вместо `rosa@mail.ru` - ваша почта
+
 ### [Подробней о Git >>>](/content/Git/README.md)
 
 
@@ -101,7 +102,7 @@ git config --global user.email "rosa@mail.ru"
     - Запустить **Windows PowerShell** (Администратор)
     - Проверка подсистемы **WSL 2.0** командой `wsl --version` и `wsl --status`
     - Обновить **WSL 2.0** командой `wsl --update`
-    - (Не обязательно!) Установить **Ubuntu** `wsl --install`
+    - Установить **Ubuntu** `wsl --install`
         - Когда система предложит указать имя пользователя **UNIX**, надо указать `user` и **Enter**
         - Пароль польователя `user` - `123` (при наборе пароля он никак не отображается, но всё равно набирается) и **Enter**. Повтори пароль и **Enter**
         - Перезагрузить компьютер
@@ -116,7 +117,7 @@ git config --global user.email "rosa@mail.ru"
             - `sl`
             - `ascii -d`
             - `inxi -F`
-    - (Не обязательно!) Если обновления **Ubuntu** завершаться ошибкой, то надо в **Windows PowerShell** (Администратор) задать версию **WSL 2** по умолчанию: `wsl --set-default-version 2`
+    - **(Не обязательно!)** Если обновления **Ubuntu** завершаться ошибкой, то надо в **Windows PowerShell** (Администратор) задать версию **WSL 2** по умолчанию: `wsl --set-default-version 2`
 
 > Если компьютер не тянет для **WSL 2.0** и **Docker**, то можно попробовать выполнять задачи в [**Codespace**](https://github.com/features/codespaces) (но не желательно, т.к. очень ограниченный функционал!)
 
@@ -136,7 +137,9 @@ git config --global user.email "rosa@mail.ru"
 
 > Если компьютер не тянет в **WSL 2.0** и **Docker**, то можно ограничется [Codespace](https://github.com/features/codespaces) (но не желательно, т.к. очень ограниченный функционал!)
 
-[Уроки по **Docker** для начинающих](/content/Docker/README.md)
+> Для лучшего выполнения создания и запуска контейнеров можно использовать установленную в **WSL** систему **Ubuntu**, которую можно вызвать из **Главного меню**. Чтобы **VS Code** мог работать с **Ubuntu**, нужно в нём установить расширение **WSL** и запускать **VS Code** из командной строки **Ubuntu** командой `.code`
+
+[Образовательные материалы по **Docker** для начинающих](/content/Docker/README.md)
 
 ---
 
@@ -173,6 +176,7 @@ git config --global user.email "rosa@mail.ru"
 - [Markdown Preview Mermaid Support](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid)
   **Markdown Syntax Highlighting** - подсветка синтаксиса в **Mermaid**
 - [Mermaid Markdown Syntax Highlighting](https://marketplace.visualstudio.com/items?itemName=bpruitt-goddard.mermaid-markdown-syntax-highlighting)
+- [WSL](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl)
 
 Открыть и закрыть встроенный в **VS Code** терминал по **Ctrl+~**
 
@@ -198,3 +202,5 @@ git config --global user.email "rosa@mail.ru"
 * [Вопросы к экзамену по дисциплине «ОБЕСПЕЧЕНИЕ КАЧЕСТВА ФУНКЦИОНИРОВАНИЯ КОМПЬЮТЕРНЫХ СИСТЕМ»](/content/Ensuring_quality_computer_systems_functioning/questions.md)
 * [Вопросы к экзамену по дисциплине "Инструментальные средства разработки ПО"](/content/SoftwareDevelopmentTools/questions.md)
 * [Вопросы к экзамену по дисциплине "Информационные технологии"](/content/IT/questions.md)
+
+> Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

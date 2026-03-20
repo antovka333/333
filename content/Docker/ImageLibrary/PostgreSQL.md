@@ -6,6 +6,17 @@
 > Никогда в разработке не используйте пробелы и спец.символы в именах файлов и каталогов!
 
 Запуск PostgreSQL с паролем
+
+в **Windows Powershell**
+```shell
+docker run -d ^
+  --name my-postgres ^
+  -p 5432:5432 ^
+  -e POSTGRES_PASSWORD=mysecretpassword ^
+  postgres:alpine
+```
+
+в **Linux/WSL 2.0/Mac**
 ```shell
 docker run -d \
   --name my-postgres \
@@ -33,3 +44,5 @@ SELECT version();
 ```sql
 exit
 ```
+
+> Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

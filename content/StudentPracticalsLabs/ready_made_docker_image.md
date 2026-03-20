@@ -35,3 +35,5 @@
 1. [База данных Redis](/content/Docker/ImageLibrary/Redis.md)
 1. [HTTP-сервер для раздачи файлов](/content/Docker/ImageLibrary/HTTPserverFiles.md)
 1. [Файловый обменник](/content/Docker/ImageLibrary/file-server.md)
+
+> Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

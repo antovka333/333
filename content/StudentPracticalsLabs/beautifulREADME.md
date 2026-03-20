@@ -48,3 +48,5 @@ mkdir -p src translations/resources && touch README.md src/README.md translation
     *   Mermaid диаграммы
 
 ### Выполненные задания присылать в чат Собрания или преподавателю в Телеграм
+
+> Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

@@ -19,7 +19,7 @@ docker run -d --name my-apache -p 8081:80 httpd
 docker exec -it my-apache bash
 ```
 
-Установить тектовый редактор командной строки Micro:
+Установить текстовый редактор командной строки Micro:
 ```shell
 apt update && apt install micro
 ```
@@ -33,8 +33,11 @@ micro /usr/local/apache2/htdocs/index.html
 
 отредайтируйте и сохраните по `Ctrl+S` и выйти из режима редактирования по `Ctrl+Q`
 
+[Проверьте результат по адрес http://localhost:8081](http://localhost:8081)
+
 Выйти из контейнера:
 ```shell
 exit
 ```
 
+> Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

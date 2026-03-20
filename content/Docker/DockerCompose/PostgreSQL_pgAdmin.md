@@ -224,4 +224,6 @@ docker compose down
 docker compose up -d
 ```
 
-[pgAdmin будет доступен по адресу](gAdmin: http://localhost:8082)
+[pgAdmin будет доступен по адресу http://localhost:8082](http://localhost:8082)
+
+> Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

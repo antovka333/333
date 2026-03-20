@@ -9,6 +9,16 @@
 
 > Перед созданием проекта убедитесь, что порт 8084 не занят другим приложением!
 
+
+Запустите **Adminer** в **Windows Powershell**
+```shell
+docker run -d ^
+  --name adminer ^
+  -p 8084:8080 ^
+  adminer:latest
+```
+
+Запустите **Adminer** в **Linux/WSL 2.0/Mac**
 ```shell
 docker run -d \
   --name adminer \
@@ -27,3 +37,5 @@ docker run -d \
 - сервер: host.docker.internal
 - логин: postgres
 - пароль: mysecretpassword
+
+> Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

@@ -1,4 +1,4 @@
-## Моя коллекция готовых Docker-образов из разных хабов
+## Коллекция готовых Docker-образов из разных хабов
 
 1. [Docket Hub](/content/Docker/ImageLibrary/DockerHub.md)
 1. [Веб-сервер Nginx](/content/Docker/ImageLibrary/Nginx.md)
@@ -22,3 +22,5 @@
 1. [Файловый обменник](/content/Docker/ImageLibrary/file-server.md)
 1. [Jira](/content/Docker/ImageLibrary/Jira.md)
 1. [Pcb2gcode](/content/Docker/ImageLibrary/Pcb2gcode.md)
+
+> Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

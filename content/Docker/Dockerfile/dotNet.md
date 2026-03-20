@@ -11,12 +11,11 @@ MyApp/
 ├── Dockerfile
 ├── MyApp.csproj
 ├── Program.cs
-├── .dockerignore
 ```
 
 В каталоге для Docker-проектов создать одной bash-командой всю структуру для нового приложения:
 ```shell
-mkdir -p MyApp && touch MyApp/Program.cs MyApp/ReservationSystem.csproj MyApp/Dockerfile MyApp/.dockerignore
+mkdir -p MyApp && touch MyApp/Program.cs MyApp/ReservationSystem.csproj MyApp/Dockerfile
 ```
 
 ### 2. Содержимое файла `MyApp.csproj`
@@ -89,3 +88,5 @@ docker run -d -p 8081:80 --name myapp myapp
 - `myapp` — имя образа.
 
 После запуска откройте браузер по адресу [http://localhost:8080](http://localhost:8080) — вы должны увидеть сообщение **Hello from Docker! Привет из Docker!**
+
+> Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

@@ -101,7 +101,7 @@ CMD ["ftxui_demo"]
 
 ### 5. Сборка и запуск
 
-Сборка образа
+В командной строке, находясь в папке `cpp-ftxui`, выполнить:
 ```shell
 docker build -t ftxui-demo .
 ```
@@ -118,3 +118,5 @@ docker run -it --entrypoint bash ftxui-demo
 ```shell
 exit
 ```
+
+> Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!
