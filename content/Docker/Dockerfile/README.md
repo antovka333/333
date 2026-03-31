@@ -1,8 +1,10 @@
 ## Dockerfile проекты
 
+- [Что такое Dockerfile?](/content/Docker/Docs/DockerfileInfo.md)
+
 - [Привет, Docker! 🐳](/content/Docker/Dockerfile/hello-world.md)
 - [Статический сайт на веб-сервере Nginx](/content/Docker/Dockerfile/my-site.md)
-- [Простое приложение на Python]()
+- [Простое приложение на Python](/content/Docker/Dockerfile/Python.md)
 - [Flask+Python (мини-проект)](/content/Docker/Dockerfile/Flask+Python_Mini.md)
 - [Приложение на C# (.NET) с публикацией](/content/Docker/Dockerfile/dotNet.md)
 - [Консольное приложение на C++](/content/Docker/Dockerfile/cpp.md)

@@ -1,19 +1,22 @@
 ## Прокси сервер Squid proxy
 
 > Никогда в разработке не используйте русские имена файлов и каталогов!
+
 > Никогда в разработке не используйте пробелы и спец.символы в именах файлов и каталогов!
 
-1. Запустить Squid proxy
+1. Запустить **Squid proxy**
 
 в **Windows Powershell**
 ```shell
-docker run -d ^
-  --name squid-proxy ^
-  -p 3128:3128 ^
+docker run -d `
+  --name squid-proxy `
+  -p 3128:3128 `
   ubuntu/squid:latest
 ```
 
-в **Linux/WSL 2.0/Mac**
+> Если эта команда в Powershell не работает, то удалите из кода апострофы `
+
+в **Git-Bash/Linux/WSL 2.0/Mac**
 ```shell
 docker run -d \
   --name squid-proxy \

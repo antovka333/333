@@ -5,6 +5,7 @@
 Выполните все этапы работы с проектом по примеру с [Nginx](/content/Docker/ImageLibrary/Nginx.md)
 
 > Никогда в разработке не используйте русские имена файлов и каталогов!
+
 > Никогда в разработке не используйте пробелы и спец.символы в именах файлов и каталогов!
 
 > Перед созданием проекта убедитесь, что порт 8084 не занят другим приложением!
@@ -12,13 +13,13 @@
 
 Запустите **Adminer** в **Windows Powershell**
 ```shell
-docker run -d ^
-  --name adminer ^
-  -p 8084:8080 ^
+docker run -d
+  --name adminer
+  -p 8084:8080
   adminer:latest
 ```
 
-Запустите **Adminer** в **Linux/WSL 2.0/Mac**
+Запустите **Adminer** в **Git-Bash/Linux/WSL 2.0/Mac**
 ```shell
 docker run -d \
   --name adminer \

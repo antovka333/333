@@ -3,20 +3,23 @@
 Выполните все этапы работы с проектом по примеру с [Nginx](/content/Docker/ImageLibrary/Nginx.md)
 
 > Никогда в разработке не используйте русские имена файлов и каталогов!
+
 > Никогда в разработке не используйте пробелы и спец.символы в именах файлов и каталогов!
 
-Запуск PostgreSQL с паролем
+Запуск **PostgreSQL** с паролем
 
 в **Windows Powershell**
 ```shell
-docker run -d ^
-  --name my-postgres ^
-  -p 5432:5432 ^
-  -e POSTGRES_PASSWORD=mysecretpassword ^
+docker run -d `
+  --name my-postgres `
+  -p 5432:5432 `
+  -e POSTGRES_PASSWORD=mysecretpassword `
   postgres:alpine
 ```
 
-в **Linux/WSL 2.0/Mac**
+> Если эта команда в Powershell не работает, то удалите из кода апострофы `
+
+в **Git-Bash/Linux/WSL 2.0/Mac**
 ```shell
 docker run -d \
   --name my-postgres \
@@ -25,7 +28,7 @@ docker run -d \
   postgres:alpine
 ```
 
-Подключиться через psql
+Подключиться через `psql`
 ```shell
 docker exec -it my-postgres psql -U postgres
 ```

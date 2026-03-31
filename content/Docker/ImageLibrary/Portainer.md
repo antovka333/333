@@ -3,23 +3,26 @@
 Выполните все этапы работы с проектом по примеру с [Nginx](/content/Docker/ImageLibrary/Nginx.md)
 
 > Никогда в разработке не используйте русские имена файлов и каталогов!
+
 > Никогда в разработке не используйте пробелы и спец.символы в именах файлов и каталогов!
 
 ### Вариант с томами (с сохранением данных)
 
 в **Windows Powershell**
 ```shell
-docker run -d ^
-  --name portainer ^
-  -p 9000:9000 ^
-  -p 9443:9443 ^
-  -v /var/run/docker.sock:/var/run/docker.sock ^
-  -v portainer_data:/data ^
-  --restart unless-stopped ^
+docker run -d `
+  --name portainer `
+  -p 9000:9000 `
+  -p 9443:9443 `
+  -v /var/run/docker.sock:/var/run/docker.sock `
+  -v portainer_data:/data `
+  --restart unless-stopped `
   portainer/portainer-ce:latest
 ```
 
-в **Linux/WSL 2.0/Mac**
+> Если эта команда в Powershell не работает, то удалите из кода апострофы `
+
+в **Git-Bash/Linux/WSL 2.0/Mac**
 ```shell
 docker run -d \
   --name portainer \

@@ -3,6 +3,7 @@
 Выполните все этапы работы с проектом по примеру с [Nginx](/content/Docker/ImageLibrary/Nginx.md)
 
 > Никогда в разработке не используйте русские имена файлов и каталогов!
+
 > Никогда в разработке не используйте пробелы и спец.символы в именах файлов и каталогов!
 
 > Перед созданием проекта убедитесь, что порт 8084 не занят другим приложением!
@@ -11,14 +12,16 @@
 
 в **Windows Powershell**
 ```shell
-docker run -d ^
-  --name file-server ^
-  -p 8084:80 ^
-  -v $(pwd):/srv ^
+docker run -d `
+  --name file-server `
+  -p 8084:80 `
+  -v $(pwd):/srv `
   halverneus/static-file-server:latest
 ```
 
-в **Linux/WSL 2.0/Mac**
+> Если эта команда в Powershell не работает, то удалите из кода апострофы `
+
+в **Git-Bash/Linux/WSL 2.0/Mac**
 ```shell
 docker run -d \
   --name file-server \
