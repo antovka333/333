@@ -16,14 +16,8 @@ my-website/
 mkdir -p my-website && touch my-website/Dockerfile my-website/index.html && cd my-website
 ```
 
-index.html:
-```html
-<!DOCTYPE html>
-<html>
-<head><title>My site on Docker</title></head>
-<body><h1>Hello from Docker!</h1></body>
-</html>
-```
+Файл `index.html`:
+
 или
 ```html
 <!DOCTYPE html>
@@ -40,7 +34,7 @@ index.html:
 ```
 
 
-Dockerfile:
+Файл `Dockerfile`:
 ```dockerfile
 # Используем официальный легковесный образ Nginx
 FROM nginx:alpine
@@ -54,11 +48,23 @@ EXPOSE 80
 ```shell
 docker build -t my-site .
 ```
-Запуск:
+> Флаг `-t` задает имя образа
+
+Создание и запуск контейнера:
 ```shell
-docker run -d -p 8081:80 --name my-site my-site
+docker run -d -p 8081:80 --name my-site -v "$(pwd)":/usr/share/nginx/html my-site
 ```
 
-[Откройте http://localhost:8081](http://localhost:8080)
+Пояснение:
+* `-v "$(pwd)":/usr/share/nginx/html` — монтирует вашу текущую папку (где лежит `index.html`) в директорию, откуда **Nginx** берёт файлы.
+* `$(pwd)` в **Linux/macOS/Git Bash**; в **PowerShell** используйте `${PWD}`.
+
+Теперь любые изменения в `index.html` на хосте мгновенно отобразятся на сайте (потребуется обновить страницу в браузере).
+
+[Откройте в браузере http://localhost:8081 для проверки](http://localhost:8081)
+
+![Скрин работы приложения в браузере](/content/Docker/Dockerfile/img/nginx.png)
+
+Для изменения содержимого веб-страницы просто отредактируйте локальный `index.html` и обновите веб-страницу в браузере без перезапуска Docker-контейнера.
 
 > Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

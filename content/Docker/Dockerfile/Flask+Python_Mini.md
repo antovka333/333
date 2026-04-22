@@ -93,8 +93,9 @@ if __name__ == '__main__':
 ```shell
 docker build -t my-flask-app .
 ```
+> Флаг `-t` задает имя образа
 
-### 6. Запуск контейнера
+### 6. Создание и запуск контейнера
 ```shell
 docker run -d --name my-running-app -p 8082:5000 my-flask-app
 ```

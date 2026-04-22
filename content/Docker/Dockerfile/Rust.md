@@ -1,4 +1,4 @@
-## Приложение на Rust
+## Dockerfile. Приложение на Rust
 
 **Rust** — это современный язык программирования общего назначения, ориентированный на безопасность, скорость и параллелизм
 
@@ -54,9 +54,9 @@ CMD ["./rust-app"]
 ### 3. Содержимое файла `src/main.rs`
 ```rust
 fn main() {
-    println!("Hello from Rust inside Docker! 🦀");
-    use std::io::{self, Write};
-    io::stdout().flush().unwrap();
+    eprintln!("Hello from Rust inside Docker! 🦀");
+    // небольшая задержка для гарантии вывода
+    std::thread::sleep(std::time::Duration::from_millis(100));
 }
 ```
 

@@ -1,5 +1,13 @@
 ## Docker compose конетейнеры c MySQL + phpMyAdmin
 
+**phpMyAdmin** — веб‑приложение с открытым исходным кодом на **PHP** для администрирования **MySQL/MariaDB** через браузер. Предоставляет графический интерфейс для управления базами данных без необходимости писать **SQL**‑команды вручную.
+
+Перед началом работы над этим проектом, проверье другие запущенные у вас **docker-compose** приложения:
+```shell
+docker compose ls
+```
+их лучше остановить, чтобы снизить риск возникновения конфликтов использования портов!
+
 ### Процесс создания Docker проекта MySql+phpMyAdmin
 
 1. Создать папку `Dockers` для хранения всех Docker проектов
@@ -12,19 +20,13 @@
 1. Установить и запустить Docker Composer командой: `docker compose up -d`
 1. Если установка и запуск прошли успешно, то войти в браузере по адресу `http://localhost:8081/` в админ-панель **phpMyAdmin**
 
-Создаём папку проекта
+### 1. Создание каталога проекта
 ```shell
 mkdir mysql-phpmyadmin
 ```
-
 Переходим в папку проекта
 ```shell
 cd mysql-phpmyadmin
-```
-
-Создаём и редактируем файл настроек композера
-```shell
-micro docker-compose.yml
 ```
 
 > Перед созданием проекта убедитесь, что порт 8081 не занят другим приложением!
@@ -38,7 +40,12 @@ docker ps --format "table {{.Names}}\t{{.Ports}}"
 docker port my-website
 ```
 
-Файл настроек композера
+### 2. Файл настроек композера `docker-compose.yml`
+
+Создаём и редактируем файл настроек композера средствами **VS Code** или через **Git-Bash**
+```shell
+nano docker-compose.yml
+```
 ```yml
 services:
   # MySQL Database
@@ -89,7 +96,7 @@ volumes:
     driver: local
 ```
 
-Создаем SQL скрипт для инициализации (опционально)
+В командной строке **Git-Bash** создаем **SQL** скрипт для инициализации (опционально)
 
 ```shell
 mkdir mysql
@@ -122,23 +129,20 @@ EOF
 ```shell
 docker compose up -d
 ```
-
 Проверяем
 ```shell
-docker ps
+docker ps -a
 ```
-
 и
 ```shell
 curl http://localhost:8082
 ```
-
 Проверка состояния
 ```shell
-docker compose ps
+docker compose ps -a
 ```
 
-Доступ к сервису
+### 3. Доступ к локальному сервису `phpMyAdmin`
 
 - phpMyAdmin: [URL: http://localhost:8081](http://localhost:8081)
 - Сервер: `mysql` (или `localhost:3306`)
@@ -151,60 +155,55 @@ docker compose ps
 ```shell
 docker ps -a
 ```
-
 Просмотр логов в реальном времени
 ```shell
 docker compose logs -f mysql
 ```
-
 `-f` в режиме ожидания (в режиме реального времени)
 
 Перезапустить
 ```shell
 docker compose restart
 ```
-
 Приостановить запущенный контейнер:
 ```shell
 docker compose stop
 ```
-
 Запустить приостановленный контейнер:
 ```shell
 docker compose start
 ```
-
 Показать конфигурацию текущего проекта:
 ```shell
 docker compose config
 ```
 
-Удалить проект
+### 4. Удалить проект
 
 Остановить контейнер с удалением данных
 ```shell
 docker compose down -v
 ```
-
 Проверить, не запущен ли удаляемый контейнер
 ```shell
 docker ps -a
 ```
-
 и
-
 ```shell
 docker compose ps -a
 ```
-
 Получить id образа
 ```shell
 docker images
 ```
-
 Удалить образ
 ```shell
 docker rmi 1b3a22d17cb6
+```
+
+Удаляем папку проекта через `sudo`, если в **Linux**. Для **Windows** без `sudo`
+```shell
+rm -rf mysql-phpmyadmin
 ```
 
 > Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

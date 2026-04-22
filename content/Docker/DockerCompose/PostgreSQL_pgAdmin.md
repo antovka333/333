@@ -1,5 +1,14 @@
 ## Docker compose конетейнеры c PostgreSQL+pgAdmin
 
+- **pgAdmin** — официальный графический инструмент для администрирования PostgreSQL
+- **PostgreSQL** (часто — Postgres) — свободная объектно‑реляционная система управления базами данных (ORDBMS) с открытым исходным кодом.
+
+Перед началом работы над этим проектом, проверье другие запущенные у вас **docker-compose** приложения:
+```shell
+docker compose ls
+```
+их лучше остановить, чтобы снизить риск возникновения конфликтов использования портов!
+
 ### Процесс создания Dockers проекта PostgreSQL+pgAdmin
 
 1. В папке Dockers создать файл `create-project.sh`
@@ -26,25 +35,22 @@ docker ps --format "table {{.Names}}\t{{.Ports}}"
 docker port my-website
 ```
 
-создайте файл create-project.sh:
+### 1. Создание проекта с помощью скрипта на Bash
 
+Создаём и редактируем скрипт создания проекта средствами **VS Code** или через **Git-Bash** `create-project.sh`:
 ```shell
 #!/bin/bash
 
 PROJECT_DIR="postgres-pgadmin-stack"
-
 echo "🚀 Создание структуры проекта: $PROJECT_DIR"
-
 # Создаем структуру папок
 mkdir -p $PROJECT_DIR/postgres/{data,backups,scripts}
 mkdir -p $PROJECT_DIR/pgadmin/data
 mkdir -p $PROJECT_DIR/docs
 mkdir -p $PROJECT_DIR/scripts
-
 # Создаем файлы
 touch $PROJECT_DIR/.env
 touch $PROJECT_DIR/docs/README.md
-
 # SQL скрипты
 cat > $PROJECT_DIR/postgres/scripts/01-init.sql << 'EOF'
 -- Основная инициализация базы данных
@@ -145,7 +151,6 @@ EOF
 
 # Делаем скрипты исполняемыми
 chmod +x $PROJECT_DIR/scripts/*.sh
-
 # Создаем базовый .env файл
 cat > $PROJECT_DIR/.env << 'EOF'
 # PostgreSQL Configuration
@@ -159,19 +164,17 @@ PGADMIN_PASSWORD=admin
 EOF
 ```
 
-запустите его в папке для контейнеров командой:
+### 2. Запустк проекта
 
+Находясь в каталоге проекта, выполните (?):
 ```shell
 docker compose up -d
 ```
-
 Сделать исполняемым
 ```shell
 chmod +x create-project.sh
 ```
-
 и запустить создание проекта
-
 ```shell
 ./create-project.sh
 ```
@@ -201,17 +204,18 @@ postgres-pgadmin-stack/
 
 Проверяем
 ```shell
-docker ps
+docker ps -a
 ```
+и
 ```shell
 curl http://localhost:8082
 ```
 
-[pgAdmin будет доступен по адресу](gAdmin: http://localhost:8082)
+[pgAdmin будет доступен по адресу http://localhost:8082](http://localhost:8082)
 
-### Управление проектом
+### 3. Управление проектом
 
-остановить все контейнеры
+Остановить все контейнеры
 ```shell
 docker compose down
 ```
@@ -223,7 +227,5 @@ docker compose down
 ```shell
 docker compose up -d
 ```
-
-[pgAdmin будет доступен по адресу http://localhost:8082](http://localhost:8082)
 
 > Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

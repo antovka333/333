@@ -8,6 +8,8 @@
 
 > Перед созданием проекта убедитесь, что порт 8082 не занят другим приложением!
 
+> Создание проекта лучше начать с "чистого листа", предварительно остановив и удалив все другие контейнеры и образы!
+
 1. Создайте тестовый файл
 echo "Hello from HTTP server" > test.txt
 2. Запустите простой HTTP сервер
@@ -17,7 +19,7 @@ echo "Hello from HTTP server" > test.txt
 docker run -d `
   --name http-server `
   -p 8082:80 `
-  -v $(pwd):/usr/share/nginx/html `
+  -v ${PWD}:/usr/share/nginx/html `
   nginx:alpine
 ```
 

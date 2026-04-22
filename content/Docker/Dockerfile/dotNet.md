@@ -81,6 +81,7 @@ ENTRYPOINT ["dotnet", "MyApp.dll"]
 ```shell
 docker build -t myapp .
 ```
+> Флаг `-t` задает имя образа
 
 ### 6. Запуск проекта
 ```shell

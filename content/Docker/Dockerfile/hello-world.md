@@ -22,7 +22,9 @@ CMD ["echo", "Привет, Docker! 🐳"]
 ```shell
 docker build -t hello-world .
 ```
-Запуск
+> Флаг `-t` задает имя образа
+
+Создание и запуск контейнера:
 ```shell
 docker run --rm hello-world
 ```

@@ -1,11 +1,14 @@
 #### Docker compose конетейнеры с PostgresSQL
 
-> Показать все **docker-compose** проекты:
-> ```shell
-> docker compose ls
-> ```
+**PostgreSQL** (часто — Postgres) — свободная объектно‑реляционная система управления базами данных (ORDBMS) с открытым исходным кодом.
 
-Необходимо создать следующую структуру каталогов:
+Перед началом работы над этим проектом, проверье другие запущенные у вас **docker-compose** приложения:
+```shell
+docker compose ls
+```
+их лучше остановить, чтобы снизить риск возникновения конфликтов использования портов!
+
+### 1. Структура проекта
 
 ```
 postgres-docker-project/
@@ -15,20 +18,13 @@ postgres-docker-project/
 └── docker-compose.yml  # Главный конфиг
 ```
 
-Сделать это можно одной командой в Терминале
+В каталоге для Docker-проектов создать одной bash-командой всю структуру для нового приложения:
+```shell
+mkdir -p postgres-docker-project/{data,scripts,backups} && touch postgres-docker-project/docker-compose.yml scripts/init.sql && cd postgres-docker-project
+```
 
-`mkdir -p postgres-docker-project/{data,scripts,backups}`
 
-
-зайти в каталог postgres-docker-project
-
-`cd postgres-docker-project`
-
-создать в нём файл настроек контейнера
-
-`docker-compose.yml`
-
-и внести в **docker-compose.yml** код:
+### 1. Файл `docker-compose.yml`
 
 ```yml
 # Определение секции services - здесь перечисляются все контейнеры/сервисы
@@ -85,7 +81,7 @@ services:
       retries: 3
 ```
 
-Создаем SQL скрипт для инициализации, файл: `scripts/init.sql`
+### 2. файл: `scripts/init.sql`
 
 ```sql
 -- Создаем дополнительную базу данных
@@ -114,95 +110,101 @@ INSERT INTO users (name, email) VALUES
 ON CONFLICT (email) DO NOTHING;
 ```
 
-Запускаем PostgreSQL (запуск всех сервисов docker compose в фоне), находясь в той папке, где находится файл **docker-compose.yml**
+### 3. Запуск и управление PostgreSQL в Docker
 
-`docker compose up -d`
-
+Находясь в каталоге проекта, выполнитеЖ
+```shell
+docker compose up -d
+```
 параметр `-d` отвечает за запуск контейнера в фоновом режиме
 
 > если запустить контейнер без `-d` (интерактивный режим), то остановить его можно по **Ctrl+C** в терминале
 
 проверяем его состояние (показать, что запущено именно этим compose-проектом):
-
-`docker compose ps`
-
+```shell
+docker compose ps
+```
 прочитаем логи запущенного контейнера с PostgreSQL
-
-`docker compose logs postgres`
-
-остановим контейнер с PostgreSQL
-
-`docker compose down` - ОСТАНОВКА + УДАЛЕНИЕ контейнеров
-
+```shell
+docker compose logs postgres
+```
+остановим контейнер с PostgreSQL (ОСТАНОВКА + УДАЛЕНИЕ контейнеров)
+```shell
+docker compose down
+```
 > Важно понимать, что данные БД не удалятся при остановке и удалении контейнера!
-
 или
-
 `docker compose stop` если нужно чтобы контейнер не удалился
-
 > если выполнена остановка контейнера по stop, то запустить его снова можно командой `docker compose start`
 
 снова проверим состояние запущенных контейнеров
-
-`docker ps -a`
-
+```shell
+docker ps -a
+```
 Показать конфигурацию текущего проекта:
-
-`docker compose config`
+```shell
+docker compose config
+```
 
 > Для каждого нового Docker-контейнера лучше создавать отдельную папку, чтобы каждый проект был в своей папке. Это обеспечит наилучшую изоляцию проектов.
 
-#### Подключение и работа с БД в Docker-контейнере
+### 3. Управление БД в Docker-контейнере
 
 Подключение к БД:
-`docker exec -it my-postgres psql -U myuser -d mydatabase`
-
+```shell
+docker exec -it my-postgres psql -U myuser -d mydatabase
+```
 > чтобы выйти из подключенной БД, надо в командной строке БД выполнить EXIT
 
-Попробовать подключиться к БД с браузера
-
-[localhost:5432](localhost:5432)
+[Подключиться к БД с браузера localhost:5432](localhost:5432)
 
 попробовал - пустая страница "Соединение с сайтом localhost было успешно установлено, но он не отправил ничего в ответ."
 
-#### Управление контейнером
+Останавливаем на время
+```shell
+docker compose stop
+```
+Запускаем обратно
+```shell
+docker compose start
+```
+или
+```shell
+docker compose up -d
+```
 
-- Останавливаем на время
-`docker compose stop`
-
-- Запускаем обратно
-`docker compose start`
-
-ИЛИ
-
-`docker compose up -d`
-
-#### Удалить установленный Контейнер с PostgresSQL
+#### 4. Удалить установленный Контейнер с PostgresSQL
 
 Переходим в папку с проектом
-`cd ~/Docker/postgres-docker-project`
-
+```shell
+cd ~/Docker/postgres-docker-project
+```
 Останавливаем и удаляем контейнеры, сети
-`docker compose down`
-
+```shell
+docker compose down
+```
 Или с удалением volumes (данных БД)
-`docker compose down -v`
+```shell
+docker compose down -v
+```
 
-> Важно! ключ `-v` удаляет БД (**все данные будут потеряны**)!
-
-> Важно! При удалении контейнера образ сохраняется!
+> - Важно! ключ `-v` удаляет БД (**все данные будут потеряны**)!
+> - Важно! При удалении контейнера образ сохраняется!
 
 Проверяем что контейнеров нет
-`docker ps -a`
-
+```shell
+docker ps -a
+```
 Проверяем что volumes удалены
-`docker volume ls`
-
+```shell
+docker volume ls
+```
 Проверяем что нет сетей удаляемого образа
-`docker network ls`
+```shell
+docker network ls
+```
 
 > Если `docker network ls` показывет сеть вашего docker compose, даже если он был удалён, то просто выполните `docker compose down`
-
 
 Должны быть пустые списки или только системные элементы
 - `docker ps -a`          # Не должно быть my-postgres
@@ -223,27 +225,33 @@ ON CONFLICT (email) DO NOTHING;
 
 Создать в нём новый `docker-compose.yml` с учетом полученного опыта
 
-#### Удаление образов (опционально)
+#### 5. Удаление образов (опционально)
 
-- Посмотреть все образы
-`docker images`
+Посмотреть все образы
+```shell
+docker images
+```
+Проверить, какие контейнеры используются
+```shell
+docker ps -a
+```
 
-- Проверить, какие контейнеры используются
-`docker ps -a`
-
-- Удалить сначала неиспользуемые и остановленные контейнеры, например по **id**-контейнера (эта команда почему-то не срабатывает!)
-`docker rm 15c13811d888`
+- Удалить сначала неиспользуемые и остановленные контейнеры, например по **id**-контейнера
 
 Только после этого можно удалять образы!
 
-- Удалить образ PostgreSQL
-`docker rmi postgres:15`
-
-- Или удалить все неиспользуемые образы
-`docker image prune -a`
-
-- Проверить результат удаления всех образов
-`docker images`
+Удалить образ PostgreSQL
+```shell
+docker rmi postgres:15
+```
+Или удалить все неиспользуемые образы
+```shell
+docker image prune -a
+```
+Проверить результат удаления всех образов
+```shell
+docker images
+```
 
 Теперь можно запустить проект снова, с "чистого листа"!
 
