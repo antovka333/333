@@ -10,56 +10,79 @@ docker compose ls
 ```
 их лучше остановить, чтобы снизить риск возникновения конфликтов использования портов!
 
-### 1. Создание проекта на Joomla
+### 1. Создание каталога проекта
+
+Структура проекта
+```
+joomla-docker/
+└── compose.yml
+```
 
 Создаём каталог проекта
 ```shell
-mkdir joomla-docker
-```
-Переходим в каталог проекта
-```shell
-cd joomla-docker
+mkdir -p joomla-docker && touch joomla-docker/compose.yaml && cd joomla-docker
 ```
 
-### 2. Файл настроек композера `docker-compose.yml`
+### 2. Содержимое файла конфигурации `compose.yaml` (или `docker-compose.yml` для совместимости со старыми версиями Docker Compose)
 
 Создаём и редактируем файл настроек композера средствами **VS Code** или через **Git-Bash**
+Версия 1
 ```yml
 services:
+  # Сервис базы данных MariaDB
   db:
-    image: mysql:8.0
+    # Используем официальный образ MariaDB 11.5.2
+    image: mariadb:11.5.2
+    # Контейнер автоматически перезапускается, если он остановился или упал
+    restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: joomla
-    ports:
-      - "3308:3306"
+      # Обязательные переменные окружения для базы данных
+      MYSQL_ROOT_PASSWORD: example_root_password
+      MYSQL_DATABASE: joomla_db
+      MYSQL_USER: joomla_user
+      MYSQL_PASSWORD: joomla_password
+    volumes:
+      # Сохраняем данные базы данных в Docker-томе для персистентности
+      - db_data:/var/lib/mysql
+    networks:
+      - joomla-network
+
+  # Сервис Joomla
   joomla:
-    image: joomla:4-apache
+    # Зависит от сервиса db, запустится только после того, как база данных будет готова
     depends_on:
       - db
-    environment:
-      JOOMLA_DB_HOST: db
-      JOOMLA_DB_USER: root
-      JOOMLA_DB_PASSWORD: root
-      JOOMLA_DB_NAME: joomla
+    # Используем официальный образ Joomla с Apache
+    image: joomla:latest
+    # Пробрасываем порт 8082 на хосте на порт 82 в контейнере
     ports:
       - "8082:80"
+    restart: unless-stopped
+    environment:
+      # Переменные окружения для подключения Joomla к базе данных
+      JOOMLA_DB_HOST: db:3306
+      JOOMLA_DB_USER: joomla_user
+      JOOMLA_DB_PASSWORD: joomla_password
+      JOOMLA_DB_NAME: joomla_db
+    volumes:
+      # Монтируем директорию с данными Joomla для сохранения контента, плагинов и тем
+      - joomla_data:/var/www/html
+    networks:
+      - joomla-network
+
+# Определяем общую сеть для связи контейнеров
+networks:
+  joomla-network:
+
+# Определяем Docker-тома для хранения данных
+volumes:
+  db_data:
+  joomla_data:
 ```
 
-Доступ к сайту:
+### 3. Установка и запуск проекта
 
-- [Joomla сайт: http://localhost:8082](http://localhost:8082)
-- [MySQL: localhost:3307](localhost:3307)
-
-
-### 3. Установка Joomla
-
-1. Выполнить установку **Joomla**
-1. Войти в админ-панель
-
-### 4. Работа с проектом в Docker
-
-Находясь в каталоге проекта, выполнить:
+Находясь в каталоге проекта `joomla-docker`, выполнить:
 
 Запуск всех сервисов
 ```shell
@@ -77,48 +100,95 @@ docker compose logs -f joomla
 ```shell
 docker compose logs db
 ```
-Проверьте сеть
+Проверьте сеть (опционально)
 ```shell
 docker network inspect joomla-docker_joomla-network
-```Пересоздайте контейнеры
+```
+
+### 4. Процесс установки **Joomla**
+
+Выполнить установку **Joomla** через веб-установщик
+
+[Запустите веб-установщик Joomla, открыв в браузере адрес: http://localhost:8082](http://localhost:8082)
+
+Вы перейдёте на стандартную страницу мастера установки **Joomla**. Вас попросят выполнить несколько шагов:
+- Выбор языка установщика (например, `Русский` или `English`) - у меня русский не установился!
+- Проверка предустановки: установщик проверит, что серверное окружение соответствует требованиям **Joomla**. Всё должно быть зелёным.
+- Настройка базы данных:
+  - Тип базы данных: `MySQLi` или `PDO MySQL` (подойдёт любой).
+  - Имя сервера баз данных: `db` (это имя сервиса из нашего `compose.yml` файла).
+  - Имя пользователя: `joomla_user`
+  - Пароль: `joomla_password`
+  - Имя базы данных: `joomla_db`
+
+Префикс таблиц: можно оставить по умолчанию или изменить для безопасности.
+
+Настройка веб-сайта:
+- Название сайта: придумайте любое название.
+- Ваш E-mail: укажите свой email.
+- Имя администратора: придумайте имя пользователя для входа в админ-панель.
+- Пароль администратора: надёжный пароль.
+
+Установка: после ввода всех данных нажмите **"Установить"**. Joomla создаст все необходимые таблицы в базе данных и завершит настройку.
+
+После завершения вы увидите окно с вашими данными администратора. Для продолжения работы удалите папку `installation`, следуя Важному примечанию на экране установщика.
+
+Теперь ваш сайт доступен по адресам:
+- [Joomla сайт: http://localhost:8082](http://localhost:8082)
+- [Админ-панель — по адресу http://localhost:8082/administrator](http://localhost:8082/administrator).
+
+![Screen](/content/Docker/DockerCompose/img/7.png)
+![Screen](/content/Docker/DockerCompose/img/8.png)
+![Screen](/content/Docker/DockerCompose/img/9.png)
+![Screen](/content/Docker/DockerCompose/img/10.png)
+![Screen](/content/Docker/DockerCompose/img/11.png)
+![Screen](/content/Docker/DockerCompose/img/12.png)
+
+### 5. Управление и полезные команды
+
+Находясь в папке`joomla-docker`
+
+1. Просмотр логов приложения **WP** в реальном времени
 ```shell
-docker compose down -v
+docker compose logs -f joomla
 ```
-и
+`-f` в режиме ожидания (в режиме реального времени)
+
+Чтобы выйти из режима просмотра логов, необходимо выполнить `Ctrl+C` в терминале
+
+2. Просмотр логов базы данных **db** в реальном времени
 ```shell
-docker compose up -d
+docker compose logs -f db
 ```
+Чтобы выйти из режима просмотра логов, необходимо выполнить `Ctrl+C` в терминале
 
-### Возможные проблемы
-
-```
-Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint joomla-mysql (269d5375c5e04cc699cae01dc80c527147a5e18c868cc0e8ace67552aad6deb9): Bind for 0.0.0.0:3306 failed: port is already allocated
-```
-
-Решение: поменять порт для коннекта с БД
-
-Находясь в каталоге проекта, выполнить:
-
-Остановить текущий композер
+3. Приостановить запущенный контейнер:
 ```shell
-docker compose down
+docker compose stop
 ```
-Поменять порт
+4. Запустить приостановленный контейнер:
 ```shell
-sed -i 's/3306:3306/3307:3306/' docker-compose.yml
+docker compose start
 ```
-Снова запустить
+5. Перезапустить
 ```shell
-docker compose up -d
+docker compose restart
+```
+6. Показать конфигурацию текущего проекта:
+```shell
+docker compose config
 ```
 
-### 5. Удалить композер проекта
+### 6. Удалить композер проекта
 
 Переходим в папку проекта
 ```shell
 cd joomla-docker
 ```
 Останавливаем и удаляем контейнеры и **volumes**
+```shell
+docker compose down --volumes
+```
 ```shell
 docker compose down -v
 ```

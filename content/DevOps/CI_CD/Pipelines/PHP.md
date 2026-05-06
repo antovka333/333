@@ -35,7 +35,7 @@ my-php-app/
 mkdir -p .github/workflows src tests && \
 touch .github/workflows/ci.yml \
       src/index.php tests/test.php \
-      Dockerfile .dockerignore README.md
+      Dockerfile .dockerignore README.md && cd my-php-app
 ```
 
 ### 2. Файл `src/index.php`
@@ -59,7 +59,7 @@ class GreetingTest extends TestCase
     public function testGetGreeting()
     {
         require_once __DIR__ . '/../src/index.php';
-        
+
         $greeting = getGreeting();
         $this->assertEquals("Hello from PHP in Docker! 🐳", $greeting);
         $this->assertStringContainsString("PHP", $greeting);

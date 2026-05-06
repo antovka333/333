@@ -9,223 +9,150 @@ docker compose ls
 ```
 их лучше остановить, чтобы снизить риск возникновения конфликтов использования портов!
 
-### Процесс создания Dockers проекта PostgreSQL+pgAdmin
+### 1. Создание каталога проекта
 
-1. В папке Dockers создать файл `create-project.sh`
-1. Вставить код инструкции в `create-project.sh`
-1. Запустить проект командой: `docker compose up -d`
-1. http://localhost:8082/
-1. Создать сервер с параметрами подключения
-    - В pgAdmin создайте сервер с параметрами:
-    - Host: postgres (это имя сервиса в docker-compose.yml)
-    - Port: 5432
-    - Database: mydatabase
-    - Username: myuser
-    - Password: mypassword
-1. Показать таблицы: Servers -> Database -> Schemas -> Tables -> app_users -> Вверху нажать на значок таблицы
-
-> Перед созданием проекта убедитесь, что порт 8082 не занят другим приложением!
-
-Посмотреть все проброшенные порты
-```shell
-docker ps --format "table {{.Names}}\t{{.Ports}}"
+Структура проекта
 ```
-Или подробно для конкретного Docker-приложения
+postgres-pgadmin-app/
+└──compose.yaml
+```
+Создать структуру проекта можно одной bash-командой:
 ```shell
-docker port my-website
+mkdir -p postgres-pgadmin-app && cd postgres-pgadmin-app && touch compose.yaml
 ```
 
-### 1. Создание проекта с помощью скрипта на Bash
-
-Создаём и редактируем скрипт создания проекта средствами **VS Code** или через **Git-Bash** `create-project.sh`:
-```shell
-#!/bin/bash
-
-PROJECT_DIR="postgres-pgadmin-stack"
-echo "🚀 Создание структуры проекта: $PROJECT_DIR"
-# Создаем структуру папок
-mkdir -p $PROJECT_DIR/postgres/{data,backups,scripts}
-mkdir -p $PROJECT_DIR/pgadmin/data
-mkdir -p $PROJECT_DIR/docs
-mkdir -p $PROJECT_DIR/scripts
-# Создаем файлы
-touch $PROJECT_DIR/.env
-touch $PROJECT_DIR/docs/README.md
-# SQL скрипты
-cat > $PROJECT_DIR/postgres/scripts/01-init.sql << 'EOF'
--- Основная инициализация базы данных
-CREATE TABLE IF NOT EXISTS app_users (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-EOF
-
-cat > $PROJECT_DIR/postgres/scripts/02-sample-data.sql << 'EOF'
--- Тестовые данные
-INSERT INTO app_users (username, email) VALUES
-('admin', 'admin@example.com'),
-('user1', 'user1@example.com'),
-('user2', 'user2@example.com')
-ON CONFLICT (username) DO NOTHING;
-EOF
-
-cat > $PROJECT_DIR/postgres/scripts/03-users.sql << 'EOF'
--- Дополнительные пользователи и права
-CREATE USER readonly_user WITH PASSWORD 'readonly_pass';
-GRANT CONNECT ON DATABASE mydatabase TO readonly_user;
-GRANT USAGE ON SCHEMA public TO readonly_user;
-GRANT SELECT ON ALL TABLES IN SCHEMA public TO readonly_user;
-EOF
-
-# Bash скрипты
-cat > $PROJECT_DIR/scripts/backup-db.sh << 'EOF'
-#!/bin/bash
-echo "📦 Создание бэкапа базы данных..."
-BACKUP_FILE="../postgres/backups/backup_$(date +%Y%m%d_%H%M%S).sql"
-docker compose exec postgres pg_dump -U myuser mydatabase > $BACKUP_FILE
-echo "✅ Бэкап создан: $BACKUP_FILE"
-EOF
-
-cat > $PROJECT_DIR/scripts/restore-db.sh << 'EOF'
-#!/bin/bash
-if [ -z "$1" ]; then
-    echo "❌ Укажите файл для восстановления: ./restore-db.sh ../postgres/backups/backup_YYYYMMDD_HHMMSS.sql"
-    exit 1
-fi
-
-BACKUP_FILE=$1
-echo "🔄 Восстановление из $BACKUP_FILE..."
-docker compose exec -T postgres psql -U myuser -d mydatabase < $BACKUP_FILE
-echo "✅ База восстановлена!"
-EOF
-
-cat > $PROJECT_DIR/scripts/connect-db.sh << 'EOF'
-#!/bin/bash
-echo "🔗 Подключение к PostgreSQL..."
-docker compose exec postgres psql -U myuser -d mydatabase
-EOF
-
-# Docker Compose файл
-cat > $PROJECT_DIR/docker-compose.yml << 'EOF'
+### 2. Содержимое файла конфигурации `compose.yaml` (или `docker-compose.yml` для совместимости со старыми версиями Docker Compose)
+```yml
 services:
   postgres:
-    image: postgres:15
+    image: postgres:17-alpine
     container_name: postgres-db
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-mydatabase}
-      POSTGRES_USER: ${POSTGRES_USER:-myuser}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mypassword}
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
     ports:
       - "5432:5432"
     volumes:
-      - ./postgres/data:/var/lib/postgresql/data
-      - ./postgres/scripts:/docker-entrypoint-initdb.d
-      - ./postgres/backups:/backups
-    restart: unless-stopped
-    networks:
-      - db-network
+      - postgres_data:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: pgadmin-web
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@example.com}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
     ports:
-      - "8082:80"
-    volumes:
-      - ./pgadmin/data:/var/lib/pgadmin
-    user: "0:0"
-    restart: unless-stopped
-    depends_on:
-      - postgres
-    networks:
-      - db-network
+      - "5050:80"
 
-networks:
-  db-network:
-    driver: bridge
-EOF
-
-# Делаем скрипты исполняемыми
-chmod +x $PROJECT_DIR/scripts/*.sh
-# Создаем базовый .env файл
-cat > $PROJECT_DIR/.env << 'EOF'
-# PostgreSQL Configuration
-POSTGRES_DB=mydatabase
-POSTGRES_USER=myuser
-POSTGRES_PASSWORD=mypassword
-
-# pgAdmin Configuration
-PGADMIN_EMAIL=admin@example.com
-PGADMIN_PASSWORD=admin
-EOF
+volumes:
+  postgres_data:
 ```
 
-### 2. Запустк проекта
+### 3. Установка и запуск проекта
 
-Находясь в каталоге проекта, выполните (?):
+В терминале, находясь в папке с файлом `compose.yaml`, выполните команду для запуска всех сервисов в фоновом режиме:
 ```shell
 docker compose up -d
 ```
-Сделать исполняемым
+Дождитесь полной загрузки. Убедиться, что всё работает, можно командой:
 ```shell
-chmod +x create-project.sh
+docker compose ps -a
 ```
-и запустить создание проекта
+Оба контейнера (`pgadmin` и `postgres`) должны иметь статус **Up**.
+
+### 4. Доступ к pgAdmin
+
+[Откройте в браузере адрес: http://localhost:5050](http://localhost:5050)
+
+На странице входа используйте данные, указанные в переменных окружения:
+- **Email/Username:** `admin@example.com`
+- **Password:** `admin`
+
+### 5. Подключение pgAdmin к PostgreSQL
+
+- На вкладке **General** задайте любое понятное имя для сервера (например, `My Local PostgreSQL`).
+- На вкладке Connection заполните следующие поля:
+  - **Host name/address:** `postgres-db` (имя сервиса PostgreSQL из файла compose.yaml).
+  - **Port:** `5432`
+  - **Maintenance database:** `mydatabase`
+  - ** Username:** `myuser`
+  - **Password:** `mypassword`
+- Нажмите **Save**.
+
+![Screen](/content/Docker/DockerCompose/img/16.png)
+![Screen](/content/Docker/DockerCompose/img/17.png)
+![Screen](/content/Docker/DockerCompose/img/18.png)
+![Screen](/content/Docker/DockerCompose/img/19.png)
+
+### 6. Управление и полезные команды
+
+Находясь в папке `postgres-pgadmin-app` можно выполнить:
+
+1. Просмотр логов приложения **phpmyadmin** в реальном времени
 ```shell
-./create-project.sh
+docker compose logs -f pgadmin
 ```
+`-f` в режиме ожидания (в режиме реального времени)
 
-В результате будет создана структура проекта
+Чтобы выйти из режима просмотра логов, необходимо выполнить `Ctrl+C` в терминале
 
-```
-postgres-pgadmin-stack/
-├── docker-compose.yml          # Главная конфигурация
-├── .env                        # Переменные окружения (опционально)
-├── postgres/
-│   ├── data/                  # Данные PostgreSQL
-│   ├── backups/               # Бэкапы БД
-│   └── scripts/               # SQL скрипты инициализации
-│       ├── 01-init.sql        # Основная инициализация
-│       ├── 02-sample-data.sql # Тестовые данные
-│       └── 03-users.sql       # Пользователи и права
-├── pgadmin/
-│   └── data/                  # Данные pgAdmin (настройки, сессии)
-├── docs/                      # Документация проекта
-│   └── README.md
-└── scripts/                   # Вспомогательные скрипты
-    ├── backup-db.sh           # создание бэкапа
-    ├── restore-db.sh          # восстановление из бэкапа
-    └── connect-db.sh          # подключение к БД
-```
-
-Проверяем
+2. Просмотр логов базы данных **mysql** в реальном времени
 ```shell
-docker ps -a
+docker compose logs -f postgres
 ```
-и
+Чтобы выйти из режима просмотра логов, необходимо выполнить `Ctrl+C` в терминале
+
+3. Приостановить запущенный контейнер:
 ```shell
-curl http://localhost:8082
+docker compose stop
 ```
+4. Запустить приостановленный контейнер:
+```shell
+docker compose start
+```
+5. Перезапустить
+```shell
+docker compose restart
+```
+6. Показать конфигурацию текущего проекта:
+```shell
+docker compose config
+```
+7. Вход в контейнер **MySQL** (имя контейнера можно узнать командой `docker compose ps`)
+```shell
+docker compose exec postgres bash
+```
+![Screen](/content/Docker/DockerCompose/img/20.png)
+выйти из контейнера можно командой `exit`
 
-[pgAdmin будет доступен по адресу http://localhost:8082](http://localhost:8082)
+### 6. Удаление этого проекта
 
-### 3. Управление проектом
+Находясь в папке `postgres-pgadmin-app`
 
-Остановить все контейнеры
+1. Остановка контейнеров этого проекта:
 ```shell
 docker compose down
 ```
-
-> docker compose down выполнять в каталоге проекта, в котором есть файл .yml
-
-и запустить нужные
-
+2. Остановка с полным удалением всех данных (базы данных и файлов) - опционально:
 ```shell
-docker compose up -d
+docker compose down --volumes
+```
+или для краткости:
+```shell
+docker compose down -v
+```
+(**Будьте осторожны:** эта команда удалит всё, что вы создали в проекте!).
+
+> ### Для полного удаления этого проекта, достаточно остановить его через `docker compose down` или `docker compose down --volumes`, удалить docker-образ, после чего удалить каталог проекта `postgres-pgadmin-app`
+
+Выходим из каталога проекта
+```shell
+cd ..
+```
+и удаляем
+```shell
+rm -rf postgres-pgadmin-app
 ```
 
 > Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!
