@@ -374,8 +374,11 @@ git merge anybranch
 - [Pull Request](/content/Git/Pull_Request.md)
 
 ### Внешние ресурсы по Git
+
 - [Что такое Git для Начинающих _ GitHub за 30 минут _ Git Уроки](https://rutube.ru/video/fb1165ca1e4f06a0079d9f8a58e68f5c/)
-> Если вы обраружили ошибку в этом тексте - сообщите пожалуйста автору!
+- [Pro Git book(рус.)](https://git-scm.com/book/ru/v2)
+- []()
+- []()
 
 ### Мэмы по Git
 

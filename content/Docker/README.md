@@ -32,6 +32,7 @@
 - [CLI Cheat Sheet](https://www.docker.com/resources/cli-cheat-sheet/)
 - [Шпаргалка по Docker(моя)]()
 - [Шпаргалка по Docker на Alt Wiki](https://www.altlinux.org/Docker_Reminder)
+- [Лучшие практики по Docker](https://www.youtube.com/watch?v=vBD4jzv0oJ0)
 
 ### Полезные ссылки
 

@@ -9,6 +9,6 @@
 - [Docker compose проект c drawDB](/content/Docker/DockerCompose/drawDB.md)
 - [Docker compose проект c Homehub](/content/Docker/DockerCompose/Homehub.md)
 - [videoeditor](https://github.com/trykimu/videoeditor)
-- []()
+- [arcada](https://github.com/mehanix/arcada)
 
 > Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

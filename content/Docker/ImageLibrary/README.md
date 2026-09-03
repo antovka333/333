@@ -22,5 +22,8 @@
 1. [Файловый обменник](/content/Docker/ImageLibrary/file-server.md)
 1. [Jira](/content/Docker/ImageLibrary/Jira.md)
 1. [Pcb2gcode](/content/Docker/ImageLibrary/Pcb2gcode.md)
+1. [Alt Linux в Docker](/content/Docker/ImageLibrary/AltInDocker.md)
+1. [Ollama и Open WebUI+Ollama](/content/Docker/ImageLibrary/Ollama.md)
+1. []()
 
 > Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

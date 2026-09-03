@@ -37,10 +37,8 @@ exit
 
 ### Полезные ссылки
 
-[alt Docker Official Image](https://hub.docker.com/_/alt/)
-
-[Dockerfile](https://github.com/alt-cloud/docker-brew-alt/blob/p10/x86_64/Dockerfile)
-
-[Docker Alt Linux Image](https://github.com/sibsau/docker-alt/blob/master/README.md)
+- [alt Docker Official Image](https://hub.docker.com/_/alt/)
+- [Dockerfile](https://github.com/alt-cloud/docker-brew-alt/blob/p10/x86_64/Dockerfile)
+- [Docker Alt Linux Image](https://github.com/sibsau/docker-alt/blob/master/README.md)
 
 > Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

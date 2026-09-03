@@ -10,49 +10,80 @@
 - [DevOps](/content/DevOps/README.md)
 - [Практические задания](/content/StudentPracticalsLabs/README.md)
 - Предметы:
-    - [Инструментальные средства разработки ПО](/content/SoftwareDevelopmentTools/README.md)
-    - [Информационные технологии](/content/IT/README.md)
-    - [Основы проектирования баз данных](/content/Basics_database_design/README.md)
-    - [Обеспечение качества функционирования компьютерных систем](/content/Ensuring_quality_computer_systems_functioning/README.md)
-    - [Поддержка и тестирование программных модулей](/content/SupportAndTesting_of_software_modules/)
+    - [Инструментальные средства разработки ПО](/content/Courses/SoftwareDevelopmentTools/)
+    - [Информационные технологии](/content/Courses/IT/)
+    - [Основы проектирования баз данных](/content/Courses/Basics_database_design/)
+    - [Обеспечение качества функционирования компьютерных систем](/content//Courses/Ensuring_quality_computer_systems_functioning/)
+    - [Поддержка и тестирование программных модулей](/content/Courses/SupportAndTesting_of_software_modules/)
+    - [Операционные системы и среды](/content/Courses/OS_and_Environments/)
+    - [Технология разработки и защиты БД](/content/Courses/Database_Development_and_Security_Technology.md/)
 
 ---
 
-> [Минимальные и рекомендуемые технические требования для рабочего пространства современного it-студента](https://gitflic.ru/project/rurewa/cpp/file?branch=master)
+**Минимально-допустимые технические требования к рабочему пространству современного IT-студента**
+
+- Компьютер: CPU >= **Intel i3** или аналогичный от **AMD**, >= 8 Gb RAM, HDD/SSD >= 256 Gb + монитор > 19’ (диагональ);
+- Операционная система - **Linux**: **Alt Linux 11** (лучше с KDE) или что-нибудь из семейства **Ubuntu** 22.04/24.04-64 bit (или её деривативы). **MacOS** 15 Sequoia+, **Windows** 10+ (версия 22H2 (сборка 19045), `WSL2.0` или другая виртуальная машина с **Linux**, например `Virtual Box`). Регистрация на [Github.com](github.com), [Gitflic.ru](gitflic.ru), [Яндекс](https://ya.ru/);
+- Хороший интернет;
+- Аудиогарнитура (наушники+микрофон).
 
 ## Навигация по документу (GOTO)
 
 - [Git](#git)
-- [WSL 2.0 для Windows 10/11](#wsl-20-для-windows-1011-может-понадобиться-для-работы-с-docker-etc)
+- [WSL 2.0 для Windows 10/11](#wsl-20-для-windows-10-и-11)
 - [Docker](#docker-разработка-тестирование-и-запуск-различного-по)
-- [Virtual Box (Для организации контроллера домена)](/content/Linux/README.md)
+- [Virtual Box/Hyper V](/content/Linux/README.md)
 - [Минимальные настройки VSCode](#минимальные-настройки-vscode)
+- [Zed](#zed)
 - [Рекомендуемые навыки и умения](#рекомендуемые-навыки-и-умения)
 - [Вопросы к экзаменам](#вопросы-к-экзамену)
 
+---
+
 **Минимальные требования к студентам:**
 
-1. Персональный компьютер с монитором (лучше два монитора) и аудиогарнитура. Хороший интернет
-1. Для изучения **IT** технологий лучше использовать какой-нибудь **Linux**, например [Альт Образование 11](https://www.basealt.ru/alt-education)
+1. В учёбе по **IT** дисциплинам лучше использовать какой-нибудь **Linux**, например [Альт Образование 11](https://www.basealt.ru/alt-education)
 1. Для пользователей **Linux** [инструкция по получению и настройке Альт Линукс Образование 11](/content/Linux/README.md)
-1. Для пользователей **Windows 10/11** установку приложений в Windows рекомендуется использовать [**WinGet**](https://learn.microsoft.com/ru-ru/windows/package-manager/winget/)! Проверить у себя в **PowerShell** установленный **WinGet** командой `winget --info`. Если не установлен, то:
-    - Установить [WinGet (Windows Package Manager)](https://apps.microsoft.com/detail/9nblggh4nns1?hl=ru-RU&gl=RU) или [с Github](https://github.com/microsoft/winget-cli/releases)
+1. Для пользователей **Windows 10/11** установку приложений в **Windows** рекомендуется использовать [**WinGet**](https://learn.microsoft.com/ru-ru/windows/package-manager/winget/)! Проверить у себя в **PowerShell** установленный **WinGet** командой `winget --info`. Если не установлен, то:
+    - Установить [WinGet - Windows Package Manager](https://apps.microsoft.com/detail/9nblggh4nns1?hl=ru-RU&gl=RU) или [с Github](https://github.com/microsoft/winget-cli/releases)
 1. Приложение [Teams](https://teams.microsoft.com/v2/) или браузер [Edge](https://www.microsoft.com/ru-ru/edge/download?form=MA13FW) или в **PowerShell** - `winget install Microsoft.Teams` и `winget install Microsoft.Edge`
 1. **Git** (Git-Bash) [Git-Bash](https://git-scm.com/) или установить в **PowerShell** командой `winget install Git.Git`
-1. Регистрация в [Яндекс](https://ya.ru/) или [VK](https://vk.com/)
+1. Консольный текстовый редактор `Micro` (требуется для редакторивания слияний в **Git**)
+    - Установить **Micro** в **Windows**:
+    ```shell
+    winget install --id=zyedidia.micro -e
+    ```
+    - Установить **Micro** в **Alt Linux 11**:
+    ```shell
+    epmi --auto micro xclip xsel
+    ```
+    - Установить **macOS**:
+    ```shell
+    brew install micro
+    ```
+1. Регистрация в [Яндекс](https://ya.ru/) или [VK](https://vk.com/) - для регистрации на [Gitflic.ru](gitflic.ru)
 1. Создать публичный репозиторий на [gitflic.ru](gitflic.ru) или [Github](github.com)
-1. **Dia** [Dia](https://ru.wikipedia.org/wiki/Dia) - `winget install gnome.Dia` (не обязательно)
+1. **Dia** [Dia](https://ru.wikipedia.org/wiki/Dia) - `winget install gnome.Dia` (опционально)
 1. **VSCode** [VSCode](https://code.visualstudio.com/) или в **PowerShell** - `winget install Microsoft.VisualStudioCode`
-1. **Termux** (для Андроид) [Termux](https://termux.dev/en/) - не обязательно
-1. Компилятор **gcc** (Для Windows MSYS2) [MSYS2](https://www.msys2.org/) или [Clang](https://releases.llvm.org/download.html)  или в **PowerShell** - `winget install LLVM.LLVM` - не обязательно!
+1. [Zed](https://zed.dev/?ref=taaft) - это высокопроизводительный, многопользовательский редактор кода с открытым исходным кодом со встроенным ИИ.
+    - Установка в Windows (PowerShell - Администратор):
+    ```shell
+    winget install -e --id ZedIndustries.Zed
+    ```
+    - Установка в Alt Linux 11:
+    ```shell
+    su - -c "epmp --auto zed"
+    ```
+1. **Termux** (для Андроид) [Termux](https://termux.dev/en/) - опционально
+1. Компилятор **gcc** (Для Windows MSYS2) [MSYS2](https://www.msys2.org/) или [Clang](https://releases.llvm.org/download.html)  или в **PowerShell** - `winget install LLVM.LLVM` - опционально
 1. **WSL 2.0** - установить Ubuntu - для **Docker** etc. [WSL 2.0 для Windows 10/11](#wsl-20-для-windows-1011-может-понадобиться-для-работы-с-docker-etc)
-1. **Docker** - [Загрузить и установить Docker-Desktop](https://www.docker.com/products/docker-desktop/) или в **PowerShell** - `winget install Docker.DockerDesktop`
-1. **Virtual Box** - для установки **Alt Образование 11** - для контроллера домена (групповые политики) - пока не обязательно!
+1. **Docker** - Для Windows [Загрузить и установить Docker-Desktop](https://www.docker.com/products/docker-desktop/) или в **PowerShell** - `winget install Docker.DockerDesktop`. [Для Linux](/content/Linux/README.md)
+1. **Virtual Box** - для установки **Alt Образование 11** - для контроллера домена (групповые политики)
 [Virtual Box](https://www.oracle.com/virtualization/virtualbox/) или в **PowerShell** - `winget install --id=Oracle.VirtualBox -e`
     - [Альт Образование 11 для виртуальной машины](https://download.basealt.ru/pub/distributions/ALTLinux/p11/images/education/x86_64/alt-education-11.0-x86_64.iso) - пока не обязательно!
-1. Нейросети [DeepSeek](https://chat.deepseek.com/), [Qwen](https://chat.qwen.ai/) и [Cursor](https://cursor.com/)
+1. Нейросети [DeepSeek](https://chat.deepseek.com/), [Qwen](https://chat.qwen.ai/) и [Cursor](https://cursor.com/) etc.
 
-> Периодически следует обновлять все установленные пользователем приложения. Это удобней делать через **PowerShell** командой `winget upgrade --all`
+> Периодически следует обновлять все установленные пользователем приложения в Widows. Это удобней делать через **PowerShell** командой `winget upgrade --all`
 
 Кроме этого, с помощью **WinGet** можно одновременно устанавливать сразу несколько выбранных приложений, например:
 
@@ -66,11 +97,11 @@ winget install Microsoft.Teams Git.Git Microsoft.VisualStudioCode Docker.DockerD
 
 #### Минимальные настройки Git в Windows/Linux
 
-Открыть **Powersheell** или **Git-Bash**
+Открыть **Powersheell / Git-Bash / Terminal**
 
-Выбрать текстовый редактор **Nano** по умолчанию
+Выбрать текстовый редактор **Nano** по умолчанию для Windows/Linux
 ```shell
-git config --global core.editor "nano"
+git config --global core.editor "micro"
 ```
 Представиться системе **Git**:
 ```shell
@@ -86,17 +117,19 @@ git config --global user.email "rosa@mail.ru"
 
 ---
 
-### WSL 2.0 для Windows 10/11 (может понадобиться для работы с Docker etc.)
+### WSL 2.0 для Windows 10+
+
+(для работы с Docker etc.)
 
 Проверить поддержку **CPU** виртуализации на вашем оборудовании
 
-1. В BIOS **VTx** или **AMD-V** - `enable` (Advanced configuration CPU)
+- В BIOS **VTx** или **AMD-V** - `enable` (Advanced configuration CPU)
 
 #### Основные этапы настройки и установки WSL 2.0
 
-1. Включение дополнения "Подсистема Windows для Linux"
+- Включение дополнения `Подсистема Windows для Linux`
     - Выполнить `Win + R`, в диалоговом окне ввести `appwiz.cpl` и нажать **Enter**.
-    - Программы и компоненты -> Включение и отключение дополнительных компонентов Windows -> поставить флажок в *Подсистема Windows для Linux*
+    - `Программы и компоненты` -> `Включение и отключение дополнительных компонентов Windows` -> поставить флажок в `Подсистема Windows для Linux`
     - Или выполните в **Windows PowerShell** (Администратор) команду: `Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform`
     - Перезагрузить компьютер в PowerShell командой `Restart-Computer`
     - Запустить **Windows PowerShell** (Администратор)
@@ -108,7 +141,7 @@ git config --global user.email "rosa@mail.ru"
         - Перезагрузить компьютер
             - После перезагрузки найти **Ubuntu** можно из **Главного меню** и запустить её как обычное приложение **Windows**
             - Обновить **Ubuntu**: в терминале **Ubuntu** запустить команду `sudo apt list --upgradable -a && sudo apt update && sudo apt full-upgrade -y`
-            - Установить дополнительные утилиты в **Ubuntu**: в терминале **Ubuntu** запустить команду `sudo apt update && sudo apt install -y mc htop tree whois sl neofetch wget curl inxi ncdu micro xclip xsel cmatrix`
+            - Установить дополнительные утилиты в **Ubuntu**: в терминале **Ubuntu** запустить команду `sudo apt update && sudo apt install -y mc htop tree whois sl fastfetch wget curl inxi ncdu micro xclip xsel cmatrix`
             - Установить поддержку `g++` и `clang++` в терминале **Ubuntu**: `sudo apt update && sudo apt install -y build-essential git gdb ascii clang mingw-w64`
             - Проверить работу **Ubuntu** командами:
             - `uname -a` - краткая информация о системе
@@ -117,7 +150,7 @@ git config --global user.email "rosa@mail.ru"
             - `sl`
             - `ascii -d`
             - `inxi -F`
-    - **(Не обязательно!)** Если обновления **Ubuntu** завершаться ошибкой, то надо в **Windows PowerShell** (Администратор) задать версию **WSL 2** по умолчанию: `wsl --set-default-version 2`
+    - Для старых версий Windows 10. **(Не обязательно!)** Если обновления **Ubuntu** завершаться ошибкой, то надо в **Windows PowerShell** (Администратор) задать версию **WSL 2** по умолчанию: `wsl --set-default-version 2`
 
 > Если компьютер не тянет для **WSL 2.0** и **Docker**, то можно попробовать выполнять задачи в [**Codespace**](https://github.com/features/codespaces) (но не желательно, т.к. очень ограниченный функционал!)
 
@@ -127,13 +160,13 @@ git config --global user.email "rosa@mail.ru"
 
 ### Docker (Разработка, тестирование и запуск различного ПО)
 
-1. [Сначал включите **WSL** на своём компьютере!](#wsl-20-для-windows-10-для-работы-с-бд)
+1. [Сначал включите **WSL** на своём компьютере!](#wsl-20-для-windows-10-и-11)
 1. [Загрузить и установить Docker-Desktop](https://www.docker.com/products/docker-desktop/) или командой в **PowerShell** `winget install Docker.DockerDesktop`
-1. Выполнять авторизацию в **Docker-Desktop** (можно через Google), указать `personal`;
+1. Выполнять авторизацию в **Docker-Desktop** не обязательно (можно пропустить или авторизироваться через Google), указать `personal`;
 1. Перезагрузить компьютер;
 1. Запустить **Docker Desktop** (можно добавить в автозагрузку для удобства);
 1. Установить и запустить тестовый контейнер `docker run hello-world`
-1. Если `docker run hello-world` не срабатывает, то в Ubuntu выполните `sudo service docker restart`
+1. Если `docker run hello-world` не срабатывает, то в **Ubuntu WSL** выполните `sudo service docker restart`
 
 > Если компьютер не тянет в **WSL 2.0** и **Docker**, то можно ограничется [Codespace](https://github.com/features/codespaces) (но не желательно, т.к. очень ограниченный функционал!)
 
@@ -143,7 +176,7 @@ git config --global user.email "rosa@mail.ru"
 
 ---
 
-### [Virtual Box (Для организации контроллера домена) - пока не обязательно!](/content/Linux/README.md)
+### [Virtual Box (Для организации контроллера домена)](/content/Linux/README.md)
 
 ---
 
@@ -153,25 +186,24 @@ git config --global user.email "rosa@mail.ru"
     - **Settings** -> **Zoom** -> **Mouse Wheel Zoom**
 - Отключить Миникарту в редакторе
     - **Settings** -> **Editor** -› **Minimap:**
-- Велючить предложения в интегрированном терминале **VSCode** -> `Settings` -> `terminal.integrated.suggest.enabled`
+- Включить предложения в интегрированном терминале **VSCode** -> `Settings` -> `terminal.integrated.suggest.enabled`
 
 Установка расширений
 
-> ### РКН заблокировал расширения для VS Code!
+> ### Установка расширений для VS Code может быть заблокирована!
 
-Временное решение:
+Временное решение, установка и обновление расширений вручную:
 - [Открываем сайт загрузчика расширений https://vsix.2i.gs/](https://vsix.2i.gs/)
 - [Находим нужное вам расширение на https://marketplace.visualstudio.com/](https://marketplace.visualstudio.com/)
 - Скачиваем нужные расширения в отдельную папку и устанавливаем их через `Install From VSIX` в `Extensions` редактора **VS Code**
+- Или используем НВП
 
 ![VS Code](/content/img/VSCODE_ext.jpg)
 
-- LiveServer (**FiveServer**) - превью локального сайта
+- **FiveServer**(LiveServer) - превью локального HTML/JS сайта
     - [LiveServer(FiveServer)](https://marketplace.visualstudio.com/items?itemName=yandeu.five-server)
-- **CodeSnap** - скриншотер исходного кода
-    - [CodeSnap](https://marketplace.visualstudio.com/items?itemName=adpyke.codesnap)
 - **Trailing Spaces** - удаление "паразитных" пробелов
-    - [Trailing Spaces](https://marketplace.visualstudio.com/items?itemName=shardulm94.trailing-spaces)
+    - [Trailing Spaces (опционально)](https://marketplace.visualstudio.com/items?itemName=shardulm94.trailing-spaces)
   **Mermaid** - графики, блок-схемы и диаграммы в **Markdown**
 - [Markdown Preview Mermaid Support](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid)
   **Markdown Syntax Highlighting** - подсветка синтаксиса в **Mermaid**
@@ -190,23 +222,34 @@ code .
 
 ---
 
+### Zed
+
+Установка в Windows (PowerShell - Администратор):
+```shell
+winget install -e --id ZedIndustries.Zed
+```
+
+---
+
 ### Рекомендуемые навыки и умения
 
 1. "Слепая печать" на стандартной клавиатуре
     - [Онлайн-клавиатурный тренажер](https://stamina-online.com/ru/)
 1. Эффективная работа с текстом (важные клавиатурные сокращения для редактирование)
 1. Технический английский [Золотой плейлист А. Бербис](https://vkvideo.ru/playlist/-227037029_21?ysclid=mictnz3gl4831947556)
-1. Читать тематические группы в Телеграм
-1. Git+Markdown+Mermaid+Docker+CI/CD
+1. Читать тематические группы в `Телеграм/Discord`
+1. `Git+Markdown+Mermaid+Docker+CI/CD/Linux/LLM`
 
 ---
 
 ## Вопросы к экзамену
 
-* [Вопросы к экзамену по дисциплине «ОСНОВЫ ПРОЕКТИРОВАНИЯ БАЗ ДАННЫХ»](/content/Basics_database_design/questions.md)
-* [Вопросы к экзамену по дисциплине «ПОДДЕРЖКА И ТЕСТИРОВАНИЕ ПРОГРАММНЫХ МОДУЛЕЙ»](/content/SupportAndTesting_of_software_modules/questions.md)
-* [Вопросы к экзамену по дисциплине «ОБЕСПЕЧЕНИЕ КАЧЕСТВА ФУНКЦИОНИРОВАНИЯ КОМПЬЮТЕРНЫХ СИСТЕМ»](/content/Ensuring_quality_computer_systems_functioning/questions.md)
-* [Вопросы к экзамену по дисциплине "Инструментальные средства разработки ПО"](/content/SoftwareDevelopmentTools/questions.md)
-* [Вопросы к экзамену по дисциплине "Информационные технологии"](/content/IT/questions.md)
+* [Вопросы к экзамену по дисциплине «ОСНОВЫ ПРОЕКТИРОВАНИЯ БАЗ ДАННЫХ»](/content/Courses/Basics_database_design/questions.md)
+* [Вопросы к экзамену по дисциплине «ПОДДЕРЖКА И ТЕСТИРОВАНИЕ ПРОГРАММНЫХ МОДУЛЕЙ»](/content/Courses/SupportAndTesting_of_software_modules/questions.md)
+* [Вопросы к экзамену по дисциплине «ОБЕСПЕЧЕНИЕ КАЧЕСТВА ФУНКЦИОНИРОВАНИЯ КОМПЬЮТЕРНЫХ СИСТЕМ»](/content/Courses/Ensuring_quality_computer_systems_functioning/questions.md)
+* [Вопросы к экзамену по дисциплине "Инструментальные средства разработки ПО"](/content/Courses/SoftwareDevelopmentTools/questions.md)
+* [Вопросы к экзамену по дисциплине "Информационные технологии"](/content/Courses/IT/questions.md)
+* [Вопросы к экзамену по дисциплине "Операционные системы и среды"](/content/Courses/IT/questions.md)
+* [Вопросы к экзамену по дисциплине "Технология разработки и защиты БД"](/content/Courses/IT/questions.md)
 
 > Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!
