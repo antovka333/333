@@ -8,6 +8,7 @@
 - [Docker compose с PostgresSQL](/content/Docker/DockerCompose/PostgresSQL.md)
 - [Docker compose проект c drawDB](/content/Docker/DockerCompose/drawDB.md)
 - [Docker compose проект c Homehub](/content/Docker/DockerCompose/Homehub.md)
+- [CloudBeaver]()
 - [videoeditor](https://github.com/trykimu/videoeditor)
 - [arcada](https://github.com/mehanix/arcada)
 

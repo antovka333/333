@@ -111,5 +111,6 @@
 ### Ссылки
 
 - [Памятка/шпаргалка по SQL](https://habr.com/ru/articles/564390/)
+- [LibreDB Studio](https://www.opennet.ru/opennews/art.shtml?num=66216)
 
 > Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

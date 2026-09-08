@@ -1,6 +1,6 @@
 **Docker Compose** — это инструмент для определения и запуска многоконтейнерных приложений.
 
-> В современных дистрибутивах не обязательно называть файл `docker-compose.yaml`, достаточно обозвать его `compose.yaml` и всё будет работать. Но при условии если у тебя не допотопная ОС со старой версией docker’a.
+> В современных дистрибутивах не обязательно называть файл `docker-compose.yaml`, достаточно обозвать его `compose.yaml` и всё будет работать. Но при условии если у тебя не допотопная ОС со старой версией docker-a.
 >
 > Современный **Docker** давно перешел на `compose.yaml`.
 >
@@ -25,7 +25,7 @@
 docker run -d --name db -e POSTGRES_PASSWORD=pass postgres
 docker run -d --name cache -p 6379:6379 redis
 docker run -d --name app -p 80:5000 --link db --link cache my-app
-# И это еще простой случай!
+# Создаются и запускаются по отдельности несколько контейнеров для всего лишь одного приложения. И это еще простой случай!
 ```
 
 ### Решение с Compose:
@@ -45,7 +45,7 @@ services:
 ```
 **Запуск:** `docker compose up -d`
 
-## 📁 Структура docker-compose.yml
+## 📁 Структура `compose.yml` или (docker-compose.yml)
 
 ### Базовый пример:
 ```yaml
@@ -94,17 +94,17 @@ volumes:
 ```shell
 docker compose ls
 ```
+или
+```shell
+docker compose ls -a
+```
 Запуск всех сервисов в фоне
 ```shell
-docker compose up -d
+docker compose up -d // Не сработала!
 ```
 Остановка всех сервисов
 ```shell
 docker compose down
-```
-Просмотр статуса
-```shell
-docker compose ps
 ```
 Просмотр логов
 ```shell
@@ -214,7 +214,7 @@ docker compose up -d
 
 ### 2. **Воспроизводимость**
 - Идентичное окружение у всех разработчиков
-- Файл `docker-compose.yml` в системе контроля версий
+- Файл `compose.yml` или `docker-compose.yml` в системе контроля версий (надёжные сохранение и разработка)
 
 ### 3. **Управление зависимостями**
 - Автоматический порядок запуска сервисов

@@ -202,7 +202,7 @@ nano myscript.sh
 #!/bin/bash
 
 # Это комментарий - простой Bash-скрипт
-
+```bash
 echo "Привет, мир!"
 echo "Сегодня: $(date)"
 echo "Текущий пользователь: $USER"
@@ -253,7 +253,6 @@ echo "Привет, $name! Добро пожаловать в Bash-скрипт�
 
 ```bash
 #!/bin/bash
-
 echo "Введите имя файла:"
 read filename
 
