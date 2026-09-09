@@ -1,5 +1,7 @@
 ## Запуск Ollama в контейнере
 
+### 1. Ollama+phi4
+
 Получить ollama:
 ```shell
 docker run -d -v ollama_data:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
@@ -22,7 +24,7 @@ ollama run phi4
 
 ---
 
-### Open WebUI и Ollama
+### 2. Open WebUI и Ollama
 
 ```shell
 docker run -d -p 3000:8081 -v ollama:/root/.ollama -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:ollama
