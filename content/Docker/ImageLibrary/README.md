@@ -4,7 +4,7 @@
 1. [Веб-сервер Nginx](/content/Docker/ImageLibrary/Nginx.md)
 1. [Welcome to Docker](/content/Docker/ImageLibrary/WelcomeToDocker.md)
 1. [Apache](/content/Docker/ImageLibrary/Apache.md)
-1. [Adminer (замена phpMyAdmin)](/content/Docker/ImageLibrary/Adminer.md)
+1. [Adminer (альтернатива phpMyAdmin)](/content/Docker/ImageLibrary/Adminer.md)
 1. [Alt Linux в Docker](/content/Docker/ImageLibrary/AltInDocker.md)
 1. [Статический сайт на Apache](/content/Docker/ImageLibrary/Apache+StaticSite.md)
 1. [Metasploitable2 docker](/content/Docker/ImageLibrary/Metasploitable2.md)
@@ -24,6 +24,7 @@
 1. [Pcb2gcode](/content/Docker/ImageLibrary/Pcb2gcode.md)
 1. [Alt Linux в Docker](/content/Docker/ImageLibrary/AltInDocker.md)
 1. [Ollama и Open WebUI+Ollama](/content/Docker/ImageLibrary/Ollama.md)
+1. [LibreDB Studio](/content/Docker/ImageLibrary/LibreDB_Studio.md)
 1. []()
 
 > Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

@@ -20,9 +20,10 @@ postgres-docker-project/
 
 В каталоге для Docker-проектов создать одной bash-командой всю структуру для нового приложения:
 ```shell
-mkdir -p postgres-docker-project/{data,scripts,backups} && touch postgres-docker-project/docker-compose.yml scripts/init.sql && cd postgres-docker-project
+mkdir -p postgres-docker-project/{data,scripts,backups} && \
+touch postgres-docker-project/docker-compose.yml postgres-docker-project/scripts/init.sql && \
+cd postgres-docker-project
 ```
-
 
 ### 1. Файл `docker-compose.yml`
 

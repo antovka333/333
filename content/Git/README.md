@@ -312,6 +312,10 @@ git push --set-upstream origin test
 ```
 где `test` -  имя отправляемой ветки
 
+Переключиться на предыдущую ветку
+```shell
+git switch -
+```
 Удалить локальную ветку
 ```shell
 git branch -d test

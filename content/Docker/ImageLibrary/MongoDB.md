@@ -35,4 +35,41 @@ docker exec -it my-mongo mongosh
 
 Повыполняйте какие-нибудь команды в этой БД для проверки и пришлите скрины
 
+Посмотреть базы данных
+```shell
+show dbs
+```
+Создать/переключиться на базу
+```shell
+use myapp
+```
+Создать коллекцию и вставить документ
+```shell
+db.users.insertOne({ name: "Иван", age: 30, city: "Москва" })
+```
+Найти документы
+```shell
+db.users.find()
+```
+Найти с фильтром
+```shell
+db.users.find({ age: { $gt: 25 } })
+```
+Обновить документ
+```shell
+db.users.updateOne({ name: "Иван" }, { $set: { age: 31 } })
+```
+Удалить документ
+```shell
+db.users.deleteOne({ name: "Иван" })
+```
+Посмотреть коллекции
+```shell
+show collections
+```
+Выйти
+```shell
+exit
+```
+
 > Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

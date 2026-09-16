@@ -12,42 +12,45 @@
 rust-docker/
 ├── Dockerfile
 ├── Cargo.toml
+├── .dockerignore
 └── src/
     └── main.rs
 ```
 
 В каталоге для Docker-проектов создать одной bash-командой всю структуру для нового приложения:
 ```shell
-mkdir -p rust-docker/src && touch rust-docker/Dockerfile rust-docker/Cargo.toml rust-docker/src/main.rs && cd rust-docker
+mkdir -p rust-docker/src && touch rust-docker/Dockerfile rust-docker/Cargo.toml .dockerignore rust-docker/src/main.rs && cd rust-docker
 ```
 
 ### 2. Содержимое файла `Dockerfile`
 ```dockerfile
-# ---- Этап 1: Сборка зависимостей и приложения ----
+# ---- Этап 1: Сборка ----
 FROM rust:1-slim AS builder
 WORKDIR /app
-# Копируем только Cargo.toml (Cargo.lock не нужен на этом этапе)
+# 1. Копируем манифест
 COPY Cargo.toml .
-# Создаём фиктивный src/main.rs, чтобы собрать зависимости
+# 2. Создаём фиктивный main.rs, чтобы собрать зависимости отдельным слоем
 RUN mkdir src && echo "fn main() {}" > src/main.rs
-# Собираем зависимости (при этом внутри контейнера создастся Cargo.lock)
-RUN cargo build --release && rm -f target/release/rust-app*
-# Теперь копируем настоящий исходный код
+# 3. Собираем зависимости (кэшируется, если Cargo.toml не менялся)
+RUN cargo build --release
+# 4. Удаляем фиктивный бинарник, чтобы не остался в образе
+RUN rm -f target/release/rust-app target/release/deps/rust_app-*
+# 5. Копируем настоящий исходный код
 COPY src ./src
-# Собираем окончательное приложение
+# 6. Собираем финальное приложение
 RUN cargo build --release
 # ---- Этап 2: Минимальный образ для запуска ----
 FROM debian:stable-slim
-# Создаём непривилегированного пользователя (рекомендация безопасности)
+# Непривилегированный пользователь (безопасность)
 RUN useradd --create-home appuser
 WORKDIR /home/appuser
-# Копируем скомпилированный бинарник из этапа сборки
+# Копируем только собранный бинарник из builder
 COPY --from=builder /app/target/release/rust-app ./rust-app
-# Переключаемся на пользователя (не root)
+# Переключаемся на непривилегированного пользователя
 USER appuser
-# Если ваше приложение — веб-сервер, укажите порт
-EXPOSE 8081
-# Запуск в правильном JSON-формате (сигналы будут работать)
+# Если приложение — веб-сервер, раскомментируйте нужный порт
+# EXPOSE 8081
+# Запуск в JSON-формате — корректная обработка сигналов
 CMD ["./rust-app"]
 ```
 
@@ -55,7 +58,9 @@ CMD ["./rust-app"]
 ```rust
 fn main() {
     eprintln!("Hello from Rust inside Docker! 🦀");
-    // небольшая задержка для гарантии вывода
+    println!("Если вы это видите — всё работает правильно.");
+
+    // Небольшая задержка, чтобы Docker успел захватить вывод
     std::thread::sleep(std::time::Duration::from_millis(100));
 }
 ```
@@ -66,11 +71,30 @@ fn main() {
 name = "rust-app"
 version = "0.1.0"
 edition = "2021"
-[dependencies]
-# Здесь будут ваши зависимости, если они нужны
+
+# Явно указываем имя бинарника, чтобы Dockerfile точно знал, что копировать
+[[bin]]
+name = "rust-app"
+path = "src/main.rs"
+
+[profile.release]
+opt-level = "z"     # Оптимизация под размер
+lto = true          # Link Time Optimization
+strip = true        # Убираем символы отладки — бинарник меньше
 ```
 
-### 5. Сборка и запуск
+### 5. Содержимое файла `.dockerignore` (блэе лист проекта)
+```text
+target/
+.git/
+.gitignore
+Dockerfile
+.dockerignore
+*.md
+```
+
+
+### 6. Сборка и запуск
 
 В командной строке, находясь в папке `rust-docker`, выполнить:
 ```shell
@@ -86,7 +110,7 @@ docker run -it --rm rust-app
 
 > Вы должны увидеть: Hello from Rust inside Docker! 🦀
 
-### 6 Зайти в контейнер
+### 7 Зайти в контейнер
 
 ```shell
 docker run -it --rm --entrypoint sh rust-app
@@ -94,6 +118,10 @@ docker run -it --rm --entrypoint sh rust-app
 Запустить программу на Rust:
 ```shell
 ./rust-app
+```
+выйти из контейнера
+```shell
+exit
 ```
 
 > Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

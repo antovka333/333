@@ -50,7 +50,7 @@ USER appuser
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
-### 3. Содержимое файла `myapp.jar`
+### 3. Содержимое файла `myapp.java`
 ```java
 package com.example;
 

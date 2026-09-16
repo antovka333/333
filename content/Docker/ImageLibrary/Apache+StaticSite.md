@@ -1,4 +1,4 @@
-## Статический сайт на Apache (пока не работает одключение тома)
+## Статический сайт на Apache
 
 Выполните все этапы работы с проектом по примеру с [Nginx](/content/Docker/ImageLibrary/Nginx.md)
 
@@ -37,7 +37,7 @@ echo '<h1>Hello Docker!</h1>' > index.html
 для **Windows Powershell**
 ```shell
 docker run -d `
-  --name my-apache `
+  --name my-apache-site `
   -p 8081:80 `
   -v ${PWD}:/usr/local/apache2/htdocs `
   httpd:alpine
@@ -48,7 +48,7 @@ docker run -d `
 для **Git-Bash/Linux/WSL 2.0/Mac**
 ```shell
 docker run -d \
-  --name my-apache \
+  --name my-apache-site \
   -p 8081:80 \
   -v $(pwd):/usr/local/apache2/htdocs \
   httpd:alpine
@@ -57,5 +57,7 @@ docker run -d \
 [Откройте: http://localhost:8081](http://localhost:8081)
 
 Для изменения содержимого `index.html` выполните его редайтирование в **VS Code** из папки `my-site` на вашем компьютере (не внутри контейнера!)
+
+Если по этому адресу будет откраться другая страница, то выполните `Ctrl+SHift+R` для VS Code и `Ctrl+R` в обычном браузере.
 
 > Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

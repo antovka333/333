@@ -18,7 +18,7 @@ joomla-docker/
 └── compose.yml
 ```
 
-Создаём каталог проекта
+Создаём каталог проекта одной командой в Git-Bash
 ```shell
 mkdir -p joomla-docker && touch joomla-docker/compose.yaml && cd joomla-docker
 ```
@@ -88,7 +88,12 @@ volumes:
 ```shell
 docker compose up -d
 ```
+- `-d` - существует директория
+
 Проверка статуса
+```shell
+docker compose ls
+```
 ```shell
 docker compose ps -a
 ```
@@ -118,7 +123,7 @@ docker network inspect joomla-docker_joomla-network
   - Тип базы данных: `MySQLi` или `PDO MySQL` (подойдёт любой).
   - Имя сервера баз данных: `db` (это имя сервиса из нашего `compose.yml` файла).
   - Имя пользователя: `joomla_user`
-  - Пароль: `joomla_password`
+  - Пароль к БД: `joomla_password`
   - Имя базы данных: `joomla_db`
 
 Префикс таблиц: можно оставить по умолчанию или изменить для безопасности.

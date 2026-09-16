@@ -14,7 +14,7 @@ docker compose ls
 
 > appstream (аппсмтрим) - автор-разработчик, предоставляющий единую инфраструктуру для описания своего программного обеспечения
 
-Клонируем репозиторий:
+Клонируем репозиторий (клонируйте в корень домашней папки текущего пользователя `cd ~`):
 ```shell
 git clone https://github.com/drawdb-io/drawdb
 ```
@@ -30,7 +30,10 @@ cd drawdb/
 ```shell
 docker compose up -d
 ```
-
+Убедиться, что проект запущен
+```shell
+docker compose ls
+```
 > Внимание! Проекту нужно несколько минут для запуска контейнера, подождите немного, прежде чем открыть его в браузере
 
 [Открыть **drawDB** локально в браузере](http://localhost:5173/)
@@ -77,6 +80,78 @@ cd ..
 3. Удалить каталог проекта
 ```shell
 rm -rf drawdb
+```
+
+---
+
+Пример экспортированной ER-диаграммы
+```mermaid
+erDiagram
+	accounts }o--|| customers : references
+	cards }o--|| customers : references
+	loans }o--|| customers : references
+	investments }o--|| customers : references
+	transactions }o--|| accounts : references
+	transfers }o--|| accounts : references
+	transfers }o--|| accounts : references
+
+	accounts {
+		INT id
+		INT customer_id
+		ENUM type
+		BIGINT number
+		FLOAT balance
+	}
+
+	customers {
+		INT id
+		VARCHAR(255) first_name
+		VARCHAR(255) last_name
+		VARCHAR(255) phone
+		VARCHAR(255) address
+	}
+
+	transactions {
+		INT id
+		INT account_id
+		DATETIME time
+		ENUM type
+		FLOAT amount
+	}
+
+	transfers {
+		INT id
+		INT from
+		INT to
+		DATETIME time
+		FLOAT amount
+	}
+
+	cards {
+		INT id
+		ENUM type
+		INT customer_id
+		BIGINT number
+		FLOAT limit
+	}
+
+	loans {
+		INT id
+		INT customer_id
+		FLOAT amount
+		FLOAT rate
+		DATE term
+		ENUM status
+	}
+
+	investments {
+		INT id
+		INT customer_id
+		ENUM type
+		FLOAT amount
+		DATE date
+		FLOAT current_val
+	}
 ```
 
 > Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!

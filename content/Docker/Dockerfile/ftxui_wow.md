@@ -119,6 +119,7 @@ docker build -t ftxui-wow .
 ```shell
 docker run -it --rm ftxui-wow
 ```
+чтобы закрыть приложение, выполните `Ctrl+C`
 
 ### 6. Войти в контейнер для исследования
 ```shell
