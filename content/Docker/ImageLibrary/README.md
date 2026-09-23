@@ -1,3 +1,7 @@
+# Docker CLI
+
+(CLI - command line interface, командная строка)
+
 ## Коллекция готовых Docker-образов из Docker Hub и других источников
 
 1. [Docket Hub](/content/Docker/ImageLibrary/DockerHub.md)

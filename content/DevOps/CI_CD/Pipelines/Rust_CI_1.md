@@ -1,4 +1,4 @@
-## Pipeline CI на Rust в GitHub Actions
+## Pipeline CI на Rust #1 в GitHub Actions
 
 **Цель** — учебный пример — простой проект, который можно склонировать, настроить и убедиться, что приложение в контейнере с **Rust**, и **GitHub Actions** работает
 
@@ -9,8 +9,6 @@
 - Сохранение артефактов для локального использования
 
 **Rust** — это современный язык программирования общего назначения, ориентированный на безопасность, скорость и параллелизм
-
-> Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!
 
 ### 1. Создайте на **GitHub** новый публичный репозиторий `my-rust-app` с `README.md`
 
@@ -252,13 +250,13 @@ docker images | grep my-rust-app
 ```shell
 docker run --rm my-rust-app:latest
 ```
-![Hello from my Rus app!](/content/DevOps/CI_CD/img/9_workflow.png)
+![Hello from my Rust app!](/content/DevOps/CI_CD/img/9_workflow.png)
 
 войти в контейнер в интерактивном режиме
 ```shell
 docker run -it --rm --entrypoint /bin/bash my-rust-app:latest
 ```
-![Hello from my Rus app!](/content/DevOps/CI_CD/img/10_workflow.png)
+![Hello from my Rust app!](/content/DevOps/CI_CD/img/10_workflow.png)
 
 выйти из контейнера:
 ```shell

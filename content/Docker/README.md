@@ -4,7 +4,7 @@
 
 - [Быстрый старт](/content/Docker/getDocker.md)
 - [Codespace (в разработке)](/content/Docker/Docs/Codespace.md)
-- [Готовые образы](/content/Docker/ImageLibrary/README.md)
+- [Готовые образы (Docker CLI)](/content/Docker/ImageLibrary/README.md)
 - [Dockerfile](/content/Docker/Dockerfile/README.md)
 - [Docker Compose](/content/Docker/DockerCompose/README.md)
 - []()

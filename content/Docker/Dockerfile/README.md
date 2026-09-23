@@ -2,6 +2,8 @@
 
 - [Что такое Dockerfile?](/content/Docker/Docs/DockerfileInfo.md)
 
+---
+
 - [Привет, Docker! 🐳](/content/Docker/Dockerfile/hello-world.md)
 - [Статический сайт на веб-сервере Nginx](/content/Docker/Dockerfile/my-site.md)
 - [Простое приложение на Python](/content/Docker/Dockerfile/Python.md)
@@ -20,5 +22,13 @@
 - [Java](/content/Docker/Dockerfile/java.md)
 - [Qt5/C++](/content/Docker/Dockerfile/cppQt5.md)
 - [Qt6/C++](/content/Docker/Dockerfile/cppQt6.md)
+
+---
+
+Самостоятельно создать и выполнить задания с `Dockerfile`:
+
+- PostgreSQL + Adminer
+- PostgreSQL + pgAdmin
+- PostgreSQL + CloudBeaver
 
 > Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!
