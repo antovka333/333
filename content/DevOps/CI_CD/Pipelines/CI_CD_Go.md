@@ -1,17 +1,23 @@
 ## CI/CD на Go с публикацией в GHCR
 
 Что узнаете/вспомните:
-- `go` — go.mod, команды build, test, vet, fmt
+- `go` — `go.mod`, команды `build`, `test`, `vet`
+- `gofmt` — проверка форматирования (в CI — `gofmt -l`)
 - Встроенные тесты — _test.go, func TestXxx(t *testing.T)
 - `Go` компилируется в один статический бинарник — JVM/интерпретатор не нужен
-
 - `Multi-stage Docker` — сборка в golang:alpine, запуск в alpine
-- `GitHub Actions` — Go toolchain, кэш модулей, docker build
-- `GHCR` — публикация образа через GITHUB_TOKEN
+- `GitHub Actions` — Go toolchain, кэш модулей, `docker build`
+- `GHCR` — публикация образа через `GITHUB_TOKEN`
+
+**GHCR** (GitHub Container Registry) — это реестр Docker-образов от **GitHub**. Работает так же, как Docker Hub, но не требует отдельной регистрации и токенов — всё через встроенный `GITHUB_TOKEN`.
+
+**Цель** — научиться публиковать Docker-образ в **GHCR** автоматически при `push`
+в `main`. Это превращает **CI** в **CI/CD** (Continuous Delivery): код не только
+проверяется, но и превращается в готовый к развёртыванию артефакт.
 
 Ключевое отличие `CI` от `CI/CD`:
-- `CI` — код проверяется: fmt, vet, test, docker build
-- `CI/CD` — то же + образ публикуется в реестр (GHCR) и готов к деплою
+- `CI` — код проверяется: `fmt`, `vet`, `test`, `docker build`
+- `CI/CD` — то же + образ публикуется в реестр (GHCR) и готов к деплою (развёртыванию)
 
 ### 1. Создайте на вашем компьютере, в корневом каталоге текущего пользователя такую структуру:
 ```text
@@ -27,6 +33,12 @@ hello-go/
 └── main.go
 ```
 Создать структуру проекта одной bash-командой (Git Bash / Linux / WSL / macOS):
+
+Перейдём в корневой каталог текущего пользователя
+```shell
+cd ~
+```
+и выполним создание структуры проекта
 ```shell
 mkdir -p hello-go/{.github/workflows,greeting} && \
 cd hello-go && \
@@ -232,7 +244,7 @@ find . -type f | sort
 
 ### 2. Сборка проекта и тесты в Docker (Go на хосте не нужен)
 
-Git Bash / Linux / WSL / macOS:
+**Git Bash / Linux / WSL / macOS:**
 ```shell
 cd ~/hello-go
 mkdir -p ~/.go-docker-cache
@@ -247,8 +259,8 @@ docker run --rm \
   golang:1.23-alpine \
   go test ./... -v
 ```
-PowerShell (Windows):
-```shell
+**PowerShell (Windows):**
+```powershell
 cd ~/hello-go
 docker run --rm `
   -e GOPATH=/tmp/go `
@@ -274,7 +286,7 @@ ok      hello-go/greeting   0.002s
 ```shell
 cd ~/hello-go
 ```
-Выполняем сборку:
+И выполняем сборку:
 ```shell
 docker build -t hello-go .
 ```
@@ -303,7 +315,7 @@ Sum 1..10 = 55
 
 Находясь в каталоге проекта:
 
-Git Bash / Linux / WSL / macOS:
+**Git Bash / Linux / WSL / macOS:**
 ```shell
 git init
 git add .
@@ -314,8 +326,8 @@ git remote add origin "https://github.com/${GITHUB_USER}/hello-go.git"
 git remote -v
 git push -u origin main
 ```
-PowerShell (Windows):
-```shell
+**PowerShell (Windows):**
+```powershell
 git init
 git add .
 git commit -m "Initial commit: Go app with Docker and CI/CD to GHCR"
@@ -332,46 +344,54 @@ git push -u origin main
 
 Проверка в **GitHub**:
 - Откройте страницу репозитория
-- В правой колонке — вкладка Packages
-- Там будет пакет hello-go
+- В правой колонке — вкладка `Packages`
+- Там будет пакет `hello-go`
 
 Прямой URL пакета:
 
 `https://github.com/users/<ВАШ-USERNAME>/packages/container/hello-go`
 
+- Замените <ВАШ-USERNAME> на ваш логин **GitHub** — без угловых скобок.
+- Например: https://github.com/users/ivanov/packages/container/hello-go
+
 ### 8. Сделать образ публичным
 
-По умолчанию образ в GHCR приватный — только вы можете его скачать. Даже если репозиторий публичный, пакет остаётся приватным — видимость настраивается отдельно.
+По умолчанию образ в **GHCR** приватный — только вы можете его скачать. Даже если репозиторий публичный, пакет остаётся приватным — видимость настраивается отдельно.
 
 1. Откройте страницу пакета:
-
 `https://github.com/users/<ВАШ-USERNAME>/packages/container/hello-go`
-
 2. Справа вверху — `Package settings`
 3. Прокрутите до `Danger Zone → Change visibility`
 4. Выберите `Public`
 5. Введите имя пакета `hello-go` для подтверждения
 6. Нажмите `I understand the consequences, change package visibility`
 
-Проверьте в режиме инкогнито (или в другом браузере, где вы не залогинены) — страница пакета должна открыться без логина.
-
 ### 9. Проверка локально
 
-Git Bash / Linux / WSL / macOS:
+**Git Bash / Linux / WSL / macOS:**
 ```shell
 docker logout ghcr.io
 read -p "Введите ваш GitHub username: " GITHUB_USER
 docker pull "ghcr.io/${GITHUB_USER}/hello-go:latest"
 docker run --rm "ghcr.io/${GITHUB_USER}/hello-go"
 ```
-PowerShell (Windows):
-```shell
+**PowerShell (Windows):**
+```powershell
 docker logout ghcr.io
 $GITHUB_USER = Read-Host "Введите ваш GitHub username"
 docker pull "ghcr.io/$GITHUB_USER/hello-go:latest"
 docker run --rm "ghcr.io/$GITHUB_USER/hello-go"
 ```
-Ожидаемый вывод тот же
+Ожидаемый вывод:
+```shell
+Hello from Go in Docker! 🐹🐳
+OS: linux
+Arch: amd64
+Hello, Docker!
+Sum 1..10 = 55
+```
+
+***
 
 Что вы освоили:
 - **Go** — go.mod, go test, go vet, gofmt
@@ -383,12 +403,3 @@ docker run --rm "ghcr.io/$GITHUB_USER/hello-go"
 - Разницу между **CI** и **CI/CD**
 
 > Если вы обнаружили ошибку в этом тексте - сообщите пожалуйста автору!
-
-
-
-
-
-
-
-
-

@@ -9,10 +9,6 @@ docker run -d -v ollama_data:/root/.ollama -p 11434:11434 --name ollama ollama/o
 ```shell
 docker exec -it ollama ollama run phi4
 ```
-установить модель phi4:
-```shell
-ollama run phi4
-```
 выйти из командного режима нейросети:
 ```shell
 /exit
